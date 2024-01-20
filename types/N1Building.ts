@@ -2,8 +2,8 @@ import { ArraySchema, MapSchema, Schema, SetSchema } from "@colyseus/schema";
 
 export interface IPlayer extends Schema {
     name: string
-    x_position: string
-    y_position: string
+    x_position: number
+    y_position: number
     animation: string
     readyToConnect: boolean
     videoConnected: boolean
@@ -14,6 +14,7 @@ export interface IComputer extends Schema {
 }
 
 export interface IWhiteBoard extends Schema {
+    roomId: string
     connectedUsers: SetSchema<string>
 }
 

@@ -1,3 +1,7 @@
-interface MyRoomState {
-    users: { [sessionId: string]: { username: string } };
+import { Client } from "colyseus"
+
+type Payload = {
+    client: Client
+    x_position: number
+    
 }
