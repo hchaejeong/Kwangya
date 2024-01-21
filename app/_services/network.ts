@@ -1,4 +1,3 @@
-import { N1Building } from "@/server/rooms/N1Building";
 import { Message } from "@/types/Messages";
 import { Client, Room } from 'colyseus.js';
 import { Event, phaserEvents } from "../_events/event-center";
@@ -7,6 +6,7 @@ import { IRoomData } from "@/types/Room";
 import { useUserStore } from "../_stores/use-user";
 import { IN1Building, IPlayer } from "@/types/N1Building";
 import WebRTC from "../_web/WebRTC";
+import { useChat } from "../_stores/use-chat";
 
 //network을 분리해야 플레이어가 다른 유저들의 움직임과 들어가고 나가는 것에 영향을 받지 않고 자유롭게 join하고 나가기위함이다
 export default class Network {
@@ -66,7 +66,39 @@ export default class Network {
     initialize() {
         if (!this.room) return
 
+        //메인 로비 페이지에서 나가서 실제 생성된 룸에 들어가기
+        this.lobby.leave()
+        this.mysessionId = this.room.sessionId
+        const { setSessionId } = useUserStore((state) => state)
+        setSessionId(this.room.sessionId)
+        //현재 네트워크에서 생성된 룸의 세션아이디로 들어가서 웹rtc를 생성하기
+        this.webRTC = new WebRTC(this.mysessionId, this)
+
+        //새로운 플레이어들 생성
+        this.room.state.players.onAdd((player: IPlayer, key: string) => {
+            if (key === this.mysessionId) return
+            console.log(player, "has been added at", key);
+
+            //각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
+            player.onChange = () => {
+                return () => {
+                    const { setPlayerNameMap } = useUserStore((state) => state);
+                    const { pushPlayerJoinedMessage } = useChat((state) => state);
         
+                    // Access player properties directly from the player object
+                    const { name } = player;
+        
+                    phaserEvents.emit(Event.PLAYER_UPDATED, 'name', name, key);
+        
+                    // when a new player finished setting up player name
+                    if (name !== '') {
+                        phaserEvents.emit(Event.PLAYER_JOINED, player, key);
+                        setPlayerNameMap(key, name);
+                        pushPlayerJoinedMessage(name);
+                    }
+                };
+            };
+        })
     }
 
     //채팅방에 유저가 더 들어올때 사용하는 이런 event listener랑 function 실행
