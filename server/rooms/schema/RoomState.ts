@@ -5,9 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 export class Player extends Schema implements IPlayer {
     @type('string') name = ''
-    @type('number') x_position = 705
-    @type('number') y_position = 500
-    @type('string') animation = 'adam_idle_down'
+    @type('number') x = 705
+    @type('number') y = 500
+    @type('string') anim = 'adam_idle_down'
     @type('boolean') readyToConnect = false
     @type('boolean') videoConnected = false
 }
