@@ -1,3 +1,5 @@
+"use client";
+
 import * as Phaser from "phaser";
 import { NavKeys } from "@/types/Keyboard";
 import { JoystickStatus } from "../_components/joystick_actions";

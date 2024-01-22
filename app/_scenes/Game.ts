@@ -1,3 +1,5 @@
+"use client";
+
 import * as Phaser from "phaser";
 import { createCharacterAnims } from "../_actions/character_animations";
 import { Keyboard, NavKeys } from "@/types/Keyboard";

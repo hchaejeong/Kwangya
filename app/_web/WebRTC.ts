@@ -20,11 +20,12 @@ export default class WebRTC {
   >();
   private myStream?: MediaStream;
   private network: Network;
-  private videoRef = useRef<HTMLVideoElement>(null);
-  private myVideo = document.createElement("video");
-  private buttonRef = useRef<ElementRef<"button">>(null);
-  //   private buttonGrid = document.querySelector(".button-grid");
+  //   private videoRef = useRef<HTMLVideoElement>(null);
   //   private myVideo = document.createElement("video");
+  //   private buttonRef = useRef<ElementRef<"button">>(null);
+  private buttonGrid = document.querySelector(".button-grid");
+  private videoGrid = document.querySelector(".video-grid");
+  private myVideo = document.createElement("video");
 
   constructor(userId: string, network: Network) {
     const sanitizedId = this.replaceInvalidId(userId);
@@ -125,7 +126,8 @@ export default class WebRTC {
     video.addEventListener("loadedmetadata", () => {
       video.play();
     });
-    if (this.videoRef) this.videoRef.current?.append(video);
+    if (this.videoGrid) this.videoGrid.append(video);
+    // if (this.videoRef) this.videoRef.current?.append(video);
   }
 
   deleteVideoStream(userId: string) {

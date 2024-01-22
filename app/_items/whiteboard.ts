@@ -1,3 +1,5 @@
+"use client";
+
 import { Items } from "@/types/Items";
 import Item from "./item";
 import Network from "../_services/network";

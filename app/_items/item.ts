@@ -1,3 +1,5 @@
+"use client";
+
 import { Items } from "@/types/Items";
 import * as Phaser from "phaser";
 

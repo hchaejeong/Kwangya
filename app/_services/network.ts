@@ -1,3 +1,5 @@
+"use client";
+
 import { Message } from "@/types/Messages";
 import { Client, Room } from "colyseus.js";
 import { Event, phaserEvents } from "../_events/event-center";
@@ -49,6 +51,7 @@ export default class Network {
     this.lobby = await this.client.joinOrCreate("lobby");
     const { setAvailableRooms, addAvailableRooms, removeAvailableRooms } =
       useRoomStore((state) => state);
+
     this.lobby.onMessage("rooms", (rooms) => {
       setAvailableRooms(rooms);
     });

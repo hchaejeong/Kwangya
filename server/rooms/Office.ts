@@ -5,7 +5,16 @@ import { IncomingMessage } from "http";
 import { Computer, N1Building, Player, WhiteBoard } from "./schema/RoomState";
 import { IRoomData } from "@/types/Room";
 import PlayerEnterCommand from "../actions/user_enter";
-import { Message } from "@/types/Messages";
+import {
+  ComputerAddUser,
+  ComputerRemoveUser,
+} from "../actions/update-computer-user";
+import {
+  WhiteboardAddUser,
+  WhiteboardRemoveUser,
+} from "../actions/update-whiteboard-user";
+import UpdateChats from "../actions/update-chats";
+import { Message } from "../../types/Messages";
 
 export class Office extends Room<N1Building> {
   private dispatcher = new Dispatcher(this);
@@ -39,6 +48,74 @@ export class Office extends Room<N1Building> {
     for (let i = 0; i < 2; i++) {
       this.state.whiteboards.set(String(i), new WhiteBoard());
     }
+
+    this.onMessage(
+      Message.CONNECT_TO_COMPUTER,
+      (client, message: { computerId: string }) => {
+        this.dispatcher.dispatch(new ComputerAddUser(), {
+          client,
+          computerId: message.computerId,
+        });
+      }
+    );
+
+    this.onMessage(
+      Message.DISCONNECT_FROM_COMPUTER,
+      (client, message: { computerId: string }) => {
+        this.dispatcher.dispatch(new ComputerRemoveUser(), {
+          client,
+          computerId: message.computerId,
+        });
+      }
+    );
+
+    this.onMessage(
+      Message.STOP_SCREEN_SHARE,
+      (client, message: { computerId: string }) => {
+        const computer = this.state.computers.get(message.computerId);
+
+        if (!computer) return;
+
+        //computer에 연결된 user 중 자신을 제외하고 모든 user에게 message 전송
+        computer.connectedUsers.forEach((id) => {
+          this.clients.forEach((cli) => {
+            if (cli.sessionId === id && cli.sessionId !== client.sessionId) {
+              cli.send(Message.STOP_SCREEN_SHARE, client.sessionId);
+            }
+          });
+        });
+      }
+    );
+
+    this.onMessage(
+      Message.CONNECT_TO_WHITEBOARD,
+      (client, message: { whiteboardId: string }) => {
+        this.dispatcher.dispatch(new WhiteboardAddUser(), {
+          client,
+          whiteboardId: message.whiteboardId,
+        });
+      }
+    );
+
+    this.onMessage(
+      Message.DISCONNECT_FROM_COMPUTER,
+      (client, message: { whiteboardId: string }) => {
+        this.dispatcher.dispatch(new WhiteboardRemoveUser(), {
+          client,
+          whiteboardId: message.whiteboardId,
+        });
+      }
+    );
+
+    this.onMessage(
+      Message.ADD_CHAT_MESSAGE,
+      (client, message: { content: string }) => {
+        this.dispatcher.dispatch(new UpdateChats(), {
+          client,
+          content: message.content,
+        });
+      }
+    );
 
     //플레이어가 위치 또는 애니메이션을 업데이트 받아와야할떄 수행하는 method를 server에서 짠 코드를 사용하도록
     this.onMessage(
