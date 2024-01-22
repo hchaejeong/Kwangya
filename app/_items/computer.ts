@@ -4,6 +4,8 @@ import { Items } from "@/types/Items";
 import Item from "./item";
 import { useComputer } from "../_stores/use-computer";
 import Network from "../_services/network";
+import store from "../_stores";
+import { openComputerDialog } from "../_stores/ComputerStore";
 
 export default class Computer extends Item {
   id?: string;
@@ -47,10 +49,9 @@ export default class Computer extends Item {
 
     this.currentUsers.add(userId);
 
-    const { computerId, shareScreenManager } = useComputer((state) => state);
-
-    if (computerId === this.id) {
-      shareScreenManager?.onUserJoined(userId);
+    const computerState = store.getState().computer;
+    if (computerState.computerId === this.id) {
+      computerState.shareScreenManager?.onUserJoined(userId);
     }
   }
 
@@ -71,9 +72,9 @@ export default class Computer extends Item {
   openDialog(playerId: string, network: Network) {
     if (!this.id) return;
 
-    const { openComputerDialog } = useComputer((state) => state);
-
-    openComputerDialog(this.id, playerId);
+    store.dispatch(
+      openComputerDialog({ computerId: this.id, myUserId: playerId })
+    );
     network.connectToComputer(this.id);
   }
 }

@@ -4,6 +4,8 @@ import { Items } from "@/types/Items";
 import Item from "./item";
 import Network from "../_services/network";
 import { useWhiteboard } from "../_stores/use-whiteboard";
+import store from "../_stores";
+import { openWhiteboardDialog } from "../_stores/WhiteboardStore";
 
 export default class Whiteboard extends Item {
   id?: string;
@@ -46,9 +48,7 @@ export default class Whiteboard extends Item {
   openDialog(network: Network) {
     if (!this.id) return;
 
-    const { openWhiteboardDialog } = useWhiteboard((state) => state);
-    openWhiteboardDialog(this.id);
-
+    store.dispatch(openWhiteboardDialog(this.id));
     network.connectToWhiteboard(this.id);
   }
 }

@@ -1,46 +1,47 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import Button from '@mui/material/Button'
-import Paper from '@mui/material/Paper'
-import TableContainer from '@mui/material/TableContainer'
-import Table from '@mui/material/Table'
-import TableRow from '@mui/material/TableRow'
-import TableCell from '@mui/material/TableCell'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
-import Tooltip from '@mui/material/Tooltip'
-import TextField from '@mui/material/TextField'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import Alert from '@mui/material/Alert'
-import Avatar from '@mui/material/Avatar'
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
-import LockIcon from '@mui/icons-material/Lock'
+import React, { useState } from "react";
+import styled from "styled-components";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
+import TableContainer from "@mui/material/TableContainer";
+import Table from "@mui/material/Table";
+import TableRow from "@mui/material/TableRow";
+import TableCell from "@mui/material/TableCell";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import Tooltip from "@mui/material/Tooltip";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import Alert from "@mui/material/Alert";
+import Avatar from "@mui/material/Avatar";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import LockIcon from "@mui/icons-material/Lock";
 
-import phaserGame from '../PhaserGame'
-import Bootstrap from '../_scenes/Bootstrap'
-import { useRoomStore } from '../_stores/use-room'
-import { getAvatarString, getColorByString } from './util'
+import phaserGame from "../PhaserGame";
+import Bootstrap from "../_scenes/Bootstrap";
+import { useRoomStore } from "../_stores/use-room";
+import { getAvatarString, getColorByString } from "./util";
+import { useAppSelector } from "../hooks";
 
 const MessageText = styled.p`
   margin: 10px;
   font-size: 18px;
   color: #eee;
   text-align: center;
-`
+`;
 
 const CustomRoomTableContainer = styled(TableContainer)<{
-  component: React.ElementType
+  component: React.ElementType;
 }>`
   max-height: 500px;
 
   table {
     min-width: 650px;
   }
-`
+`;
 
 const TableRowWrapper = styled(TableRow)`
   &:last-child td,
@@ -73,7 +74,7 @@ const TableRowWrapper = styled(TableRow)`
   .lock-icon {
     font-size: 18px;
   }
-`
+`;
 
 const PasswordDialog = styled(Dialog)`
   .dialog-content {
@@ -85,48 +86,50 @@ const PasswordDialog = styled(Dialog)`
   .MuiDialog-paper {
     background: #222639;
   }
-`
+`;
 
 export const CustomRoomTable = () => {
-  const [password, setPassword] = useState('')
-  const [selectedRoom, setSelectedRoom] = useState('')
-  const [showPasswordDialog, setShowPasswordDialog] = useState(false)
-  const [showPasswordError, setShowPasswordError] = useState(false)
-  const [passwordFieldEmpty, setPasswordFieldEmpty] = useState(false)
+  const [password, setPassword] = useState("");
+  const [selectedRoom, setSelectedRoom] = useState("");
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+  const [showPasswordError, setShowPasswordError] = useState(false);
+  const [passwordFieldEmpty, setPasswordFieldEmpty] = useState(false);
 
-  const { lobbyJoined, availableRooms } = useRoomStore((state) => state)
-  // const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined)
-  // const availableRooms = useAppSelector((state) => state.room.availableRooms)
+  const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
+  const availableRooms = useAppSelector((state) => state.room.availableRooms);
 
   const handleJoinClick = (roomId: string, password: string | null) => {
-    if (!lobbyJoined) return
-    const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
+    if (!lobbyJoined) return;
+    const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
     bootstrap.network
       .joinCustomById(roomId, password)
       .then(() => bootstrap.launchGame())
       .catch((error) => {
-        console.error(error)
-        if (password) setShowPasswordError(true)
-      })
-  }
+        console.error(error);
+        if (password) setShowPasswordError(true);
+      });
+  };
 
   const handlePasswordSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const isValidPassword = password !== ''
+    event.preventDefault();
+    const isValidPassword = password !== "";
 
-    if (isValidPassword === passwordFieldEmpty) setPasswordFieldEmpty(!passwordFieldEmpty)
-    if (isValidPassword) handleJoinClick(selectedRoom, password)
-  }
+    if (isValidPassword === passwordFieldEmpty)
+      setPasswordFieldEmpty(!passwordFieldEmpty);
+    if (isValidPassword) handleJoinClick(selectedRoom, password);
+  };
 
   const resetPasswordDialog = () => {
-    setShowPasswordDialog(false)
-    setPassword('')
-    setPasswordFieldEmpty(false)
-    setShowPasswordError(false)
-  }
+    setShowPasswordDialog(false);
+    setPassword("");
+    setPasswordFieldEmpty(false);
+    setShowPasswordError(false);
+  };
 
   return availableRooms.length === 0 ? (
-    <MessageText>There are no custom rooms now, create one and join.</MessageText>
+    <MessageText>
+      There are no custom rooms now, create one and join.
+    </MessageText>
   ) : (
     <>
       <CustomRoomTableContainer component={Paper}>
@@ -145,12 +148,15 @@ export const CustomRoomTable = () => {
           </TableHead>
           <TableBody>
             {availableRooms.map((room) => {
-              const { roomId, metadata, clients } = room
-              const { name, description, hasPassword } = metadata
+              const { roomId, metadata, clients } = room;
+              const { name, description, hasPassword } = metadata;
               return (
                 <TableRowWrapper key={roomId}>
                   <TableCell>
-                    <Avatar className="avatar" style={{ background: getColorByString(name) }}>
+                    <Avatar
+                      className="avatar"
+                      style={{ background: getColorByString(name) }}
+                    >
                       {getAvatarString(name)}
                     </Avatar>
                   </TableCell>
@@ -163,16 +169,16 @@ export const CustomRoomTable = () => {
                   <TableCell>{roomId}</TableCell>
                   <TableCell align="center">{clients}</TableCell>
                   <TableCell align="center">
-                    <Tooltip title={hasPassword ? 'Password required' : ''}>
+                    <Tooltip title={hasPassword ? "Password required" : ""}>
                       <Button
                         variant="outlined"
                         color="secondary"
                         onClick={() => {
                           if (hasPassword) {
-                            setShowPasswordDialog(true)
-                            setSelectedRoom(roomId)
+                            setShowPasswordDialog(true);
+                            setSelectedRoom(roomId);
                           } else {
-                            handleJoinClick(roomId, null)
+                            handleJoinClick(roomId, null);
                           }
                         }}
                       >
@@ -184,7 +190,7 @@ export const CustomRoomTable = () => {
                     </Tooltip>
                   </TableCell>
                 </TableRowWrapper>
-              )
+              );
             })}
           </TableBody>
         </Table>
@@ -192,19 +198,21 @@ export const CustomRoomTable = () => {
       <PasswordDialog open={showPasswordDialog} onClose={resetPasswordDialog}>
         <form onSubmit={handlePasswordSubmit}>
           <DialogContent className="dialog-content">
-            <MessageText>This a private room, please enter password:</MessageText>
+            <MessageText>
+              This a private room, please enter password:
+            </MessageText>
             <TextField
               autoFocus
               fullWidth
               error={passwordFieldEmpty}
-              helperText={passwordFieldEmpty && 'Required'}
+              helperText={passwordFieldEmpty && "Required"}
               value={password}
               label="Password"
               type="password"
               variant="outlined"
               color="secondary"
               onInput={(e) => {
-                setPassword((e.target as HTMLInputElement).value)
+                setPassword((e.target as HTMLInputElement).value);
               }}
             />
             {showPasswordError && (
@@ -224,5 +232,5 @@ export const CustomRoomTable = () => {
         </form>
       </PasswordDialog>
     </>
-  )
-}
+  );
+};

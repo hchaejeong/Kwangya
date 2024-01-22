@@ -1,22 +1,23 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import logo from '@/public/images/logo.png'
-import styled from 'styled-components'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import Tooltip from '@mui/material/Tooltip'
-import LinearProgress from '@mui/material/LinearProgress'
-import Alert from '@mui/material/Alert'
-import Snackbar from '@mui/material/Snackbar'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import React, { useState } from "react";
+import logo from "@/public/images/logo.png";
+import styled from "styled-components";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import LinearProgress from "@mui/material/LinearProgress";
+import Alert from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import { CustomRoomTable } from './custom_room_table'
-import { CreateRoomForm } from './create_room_component'
-import { useRoomStore } from '../_stores/use-room'
-import phaserGame from '../PhaserGame'
-import Bootstrap from '../_scenes/Bootstrap'
+import { CustomRoomTable } from "./custom_room_table";
+import { CreateRoomForm } from "./create_room_component";
+import { useRoomStore } from "../_stores/use-room";
+import phaserGame from "../PhaserGame";
+import Bootstrap from "../_scenes/Bootstrap";
+import { useAppSelector } from "../hooks";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -27,14 +28,14 @@ const Backdrop = styled.div`
   flex-direction: column;
   gap: 60px;
   align-items: center;
-`
+`;
 
 const Wrapper = styled.div`
   background: #222639;
   border-radius: 16px;
   padding: 36px 60px;
   box-shadow: 0px 0px 5px #0000006f;
-`
+`;
 
 const CustomRoomWrapper = styled.div`
   position: relative;
@@ -47,7 +48,7 @@ const CustomRoomWrapper = styled.div`
   .tip {
     font-size: 18px;
   }
-`
+`;
 
 const TitleWrapper = styled.div`
   display: grid;
@@ -66,13 +67,13 @@ const TitleWrapper = styled.div`
     justify-self: center;
     align-self: center;
   }
-`
+`;
 
 const Title = styled.h1`
   font-size: 24px;
   color: #eee;
   text-align: center;
-`
+`;
 
 const Content = styled.div`
   display: flex;
@@ -86,7 +87,7 @@ const Content = styled.div`
     border-radius: 8px;
     height: 120px;
   }
-`
+`;
 
 const ProgressBarWrapper = styled.div`
   display: flex;
@@ -96,42 +97,43 @@ const ProgressBarWrapper = styled.div`
   h3 {
     color: #33ac96;
   }
-`
+`;
 
 const ProgressBar = styled(LinearProgress)`
   width: 360px;
-`
+`;
 
 export default function MainEnterRoomPage() {
-  const [showCustomRoom, setShowCustomRoom] = useState(false)
-  const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
-  const [showSnackbar, setShowSnackbar] = useState(false)
-  const { lobbyJoined } = useRoomStore((state) => state)
+  const [showCustomRoom, setShowCustomRoom] = useState(false);
+  const [showCreateRoomForm, setShowCreateRoomForm] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
+  const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
 
   const handleConnect = () => {
     if (lobbyJoined) {
-        const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
-        bootstrap.launchGame()
+      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
+      bootstrap.launchGame();
     } else {
-        setShowSnackbar(true)
+      setShowSnackbar(true);
     }
-  }
+  };
 
   return (
     <>
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={showSnackbar}
         autoHideDuration={3000}
         onClose={() => {
-          setShowSnackbar(false)
+          setShowSnackbar(false);
         }}
       >
         <Alert
           severity="error"
           variant="outlined"
           // overwrites the dark theme on render
-          style={{ background: '#fdeded', color: '#7d4747' }}
+          style={{ background: "#fdeded", color: "#7d4747" }}
         >
           Trying to connect to server, please try again!
         </Alert>
@@ -141,7 +143,10 @@ export default function MainEnterRoomPage() {
           {showCreateRoomForm ? (
             <CustomRoomWrapper>
               <TitleWrapper>
-                <IconButton className="back-button" onClick={() => setShowCreateRoomForm(false)}>
+                <IconButton
+                  className="back-button"
+                  onClick={() => setShowCreateRoomForm(false)}
+                >
                   <ArrowBackIcon />
                 </IconButton>
                 <Title>Create Custom Room</Title>
@@ -151,7 +156,10 @@ export default function MainEnterRoomPage() {
           ) : showCustomRoom ? (
             <CustomRoomWrapper>
               <TitleWrapper>
-                <IconButton className="back-button" onClick={() => setShowCustomRoom(false)}>
+                <IconButton
+                  className="back-button"
+                  onClick={() => setShowCustomRoom(false)}
+                >
                   <ArrowBackIcon />
                 </IconButton>
                 <Title>
@@ -180,12 +188,19 @@ export default function MainEnterRoomPage() {
               <Title>Welcome to Madcamp</Title>
               <Content>
                 <img src={logo.src} alt="logo" />
-                <Button variant="contained" color="secondary" onClick={handleConnect}>
-                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleConnect}
+                ></Button>
                 <Button
                   variant="outlined"
                   color="secondary"
-                  onClick={() => (lobbyJoined ? setShowCustomRoom(true) : setShowSnackbar(true))}
+                  onClick={() =>
+                    lobbyJoined
+                      ? setShowCustomRoom(true)
+                      : setShowSnackbar(true)
+                  }
                 >
                   Create/find custom rooms
                 </Button>
@@ -201,5 +216,5 @@ export default function MainEnterRoomPage() {
         )}
       </Backdrop>
     </>
-  )
+  );
 }

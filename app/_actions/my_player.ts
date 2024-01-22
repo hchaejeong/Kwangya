@@ -8,11 +8,12 @@ import { PlayerMovement } from "./player_movement";
 import { PlayerBehavior } from "@/types/PlayerBehavior";
 import { Items } from "@/types/Items";
 import { phaserEvents, Event } from "../_events/event-center";
-import { useChat } from "../_stores/use-chat";
 import Network from "../_services/network";
 import Chair from "../_items/chair";
 import Computer from "../_items/computer";
 import Whiteboard from "../_items/whiteboard";
+import store from "../_stores";
+import { pushPlayerJoinedMessage } from "../_stores/ChatStore";
 
 //실제 플레이어의 움직임이랑 이름, dialog와 같은 기능들을 써놓은곳
 export default class MyPlayer extends Player {
@@ -43,8 +44,7 @@ export default class MyPlayer extends Player {
     this.playerName.setText(name);
     //기다리고 있는 event listener에 player 이름 바뀌었다고 알려줘서 listener callback 실행
     phaserEvents.emit(Event.MY_PLAYER_NAME_CHANGE, name);
-    const { pushPlayerJoinedMessage } = useChat((state) => state);
-    pushPlayerJoinedMessage(name);
+    store.dispatch(pushPlayerJoinedMessage(name));
   }
 
   setPlayerTexture(texture: string) {
