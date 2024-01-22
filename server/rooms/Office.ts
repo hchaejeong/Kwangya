@@ -4,7 +4,6 @@ import { Client, ClientArray, Room, ServerError } from "colyseus";
 import { IncomingMessage } from "http";
 import { Computer, N1Building, Player, WhiteBoard } from "./schema/RoomState";
 import { IRoomData } from "@/types/Room";
-import { Message } from "@/types/Messages";
 import PlayerEnterCommand from "../actions/user_enter";
 import {
   ComputerAddUser,
@@ -15,6 +14,7 @@ import {
   WhiteboardRemoveUser,
 } from "../actions/update-whiteboard-user";
 import UpdateChats from "../actions/update-chats";
+import { Message } from "../../types/Messages";
 
 export class Office extends Room<N1Building> {
   private dispatcher = new Dispatcher(this);

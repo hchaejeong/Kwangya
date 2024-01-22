@@ -1,3 +1,5 @@
+"use client";
+
 import * as Phaser from "phaser";
 import Background from "./_scenes/Background";
 import Bootstrap from "./_scenes/Bootstrap";
