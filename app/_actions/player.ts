@@ -1,4 +1,4 @@
-import Phaser from "phaser"
+import * as Phaser from 'phaser'
 import { PlayerBehavior } from "@/types/PlayerBehavior"
 
 //의자에 각 포지션으로 앉을때 바뀌는 [xshift, yshift, depthshift]

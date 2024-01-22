@@ -1,5 +1,7 @@
+'use client'
+
 import React, { useState } from 'react'
-import logo from '../images/logo.png'
+import logo from '/Users/hyeonchaejeong/Documents/Work/Madcamp-Fourth-Week/public/images/logo.png'
 import styled from 'styled-components'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
@@ -10,8 +12,6 @@ import Snackbar from '@mui/material/Snackbar'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
-import phaserGame from '../PhaserGame'
-import Bootstrap from '../_scenes/Bootstrap'
 import { CustomRoomTable } from './custom_room_table'
 import { CreateRoomForm } from './create_room_component'
 import { useRoomStore } from '../_stores/use-room'
@@ -100,7 +100,7 @@ const ProgressBar = styled(LinearProgress)`
   width: 360px;
 `
 
-export default function RoomSelectionDialog() {
+export default function MainEnterRoomPage() {
   const [showCustomRoom, setShowCustomRoom] = useState(false)
   const [showCreateRoomForm, setShowCreateRoomForm] = useState(false)
   const [showSnackbar, setShowSnackbar] = useState(false)

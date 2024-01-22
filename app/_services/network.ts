@@ -7,6 +7,7 @@ import { useUserStore } from "../_stores/use-user";
 import { IN1Building, IPlayer } from "@/types/N1Building";
 import WebRTC from "../_web/WebRTC";
 import { useChat } from "../_stores/use-chat";
+import { Items } from "@/types/Items";
 
 //network을 분리해야 플레이어가 다른 유저들의 움직임과 들어가고 나가는 것에 영향을 받지 않고 자유롭게 join하고 나가기위함이다
 export default class Network {
@@ -122,7 +123,7 @@ export default class Network {
             setJoinedRoomData(content)
         })
 
-        
+
     }
 
     //채팅방에 유저가 더 들어올때 사용하는 이런 event listener랑 function 실행
@@ -132,7 +133,7 @@ export default class Network {
 
     // item을 사용하는 또는 공유하는 플레이어가 추가될 경우 사용하는 listener랑 method
     onItemUserAdded(
-        callback: (playerId: string, key: string, itemType: ItemType) => void,
+        callback: (playerId: string, key: string, itemType: Items) => void,
         context?: any
     ) {
         phaserEvents.on(Event.ITEM_USER_ADDED, callback, context)
@@ -140,7 +141,7 @@ export default class Network {
 
     // item을 사용하던 플레이어가 없어질때 사용하는 Listener랑 method
     onItemUserRemoved(
-        callback: (playerId: string, key: string, itemType: ItemType) => void,
+        callback: (playerId: string, key: string, itemType: Items) => void,
         context?: any
     ) {
         phaserEvents.on(Event.ITEM_USER_REMOVED, callback, context)
