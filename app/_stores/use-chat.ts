@@ -1,3 +1,5 @@
+"use client";
+
 import { IChatting } from "@/types/N1Building";
 import { create } from "zustand";
 import phaserGame from "../PhaserGame";

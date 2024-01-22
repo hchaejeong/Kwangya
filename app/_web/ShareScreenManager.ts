@@ -1,3 +1,5 @@
+"use client";
+
 import Peer from "peerjs";
 import phaserGame from "../PhaserGame";
 import Game from "../_scenes/Game";

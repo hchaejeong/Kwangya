@@ -1,3 +1,5 @@
+"use client";
+
 import Peer, { MediaConnection } from "peerjs";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import phaserGame from "../PhaserGame";

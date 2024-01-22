@@ -1,3 +1,5 @@
+"use client";
+
 import * as Phaser from "phaser";
 import { BackgroundMode } from "@/types/BackgroundMode";
 import Network from "../_services/network";

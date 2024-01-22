@@ -1,3 +1,5 @@
+"use client";
+
 import { RoomAvailable } from "colyseus.js";
 import { create } from "zustand";
 

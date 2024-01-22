@@ -1,3 +1,5 @@
+"use client";
+
 import { BackgroundMode } from "@/types/BackgroundMode";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import phaserGame from "../PhaserGame";

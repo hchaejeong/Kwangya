@@ -1,3 +1,5 @@
+"use client";
+
 import Peer, { MediaConnection } from "peerjs";
 import { create } from "zustand";
 import phaserGame from "../PhaserGame";

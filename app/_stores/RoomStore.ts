@@ -1,3 +1,5 @@
+"use client";
+
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RoomAvailable } from "colyseus.js";
 

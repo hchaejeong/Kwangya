@@ -1,3 +1,5 @@
+"use client";
+
 import { IChatting } from "@/types/N1Building";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import phaserGame from "../PhaserGame";

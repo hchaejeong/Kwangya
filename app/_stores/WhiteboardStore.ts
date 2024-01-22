@@ -1,3 +1,5 @@
+"use client";
+
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import phaserGame from "../PhaserGame";
 import Game from "../_scenes/Game";
