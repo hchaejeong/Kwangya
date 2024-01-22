@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "downlevelIteration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "lib": ["dom", "dom.iterable", "esnext"],

@@ -1,6 +1,7 @@
 import { IChatting } from "@/types/N1Building";
 import { create } from "zustand";
 import phaserGame from "../PhaserGame";
+import Game from "../_scenes/Game";
 
 export enum MessageType {
   PLAYER_JOINED,

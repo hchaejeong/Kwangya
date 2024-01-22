@@ -1,8 +1,9 @@
 import { Dispatcher } from "@colyseus/command";
 import { Client, ClientArray, Room } from "colyseus";
 import { IncomingMessage } from "http";
+import { N1Building } from "./schema/RoomState";
 
-export class N1Building extends Room<N1Building> {
+export class Office extends Room<N1Building> {
     private dispatcher = new Dispatcher(this)
 
     onCreate(options: any): void | Promise<any> {

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import logo from '/Users/hyeonchaejeong/Documents/Work/Madcamp-Fourth-Week/public/images/logo.png'
+import logo from '@/public/images/logo.png'
 import styled from 'styled-components'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
