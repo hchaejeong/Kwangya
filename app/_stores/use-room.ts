@@ -18,7 +18,7 @@ interface RoomState {
     availableRooms: RoomAvailable[];
     setLobbyJoined: (lobbyJoined: boolean) => void;
     setRoomJoined: (roomJoined: boolean) => void;
-    setJoinedRoomData: (id: string, name: string, description: string) => void;
+    setJoinedRoomData: (data: {id: string, name: string, description: string}) => void;
     setAvailableRooms: (rooms: RoomAvailable[]) => void;
     addAvailableRooms: (roomId: string, room: RoomAvailable) => void;
     removeAvailableRooms: (roomId: string) => void;
@@ -39,11 +39,11 @@ export const useRoomStore = create<RoomState>((set) => ({
         set(() => ({
             roomJoined
         })),
-    setJoinedRoomData: (id: string, name: string, description: string) => 
+    setJoinedRoomData: (data: {id: string, name: string, description: string}) => 
         set(() => ({
-            roomId: id,
-            roomName: name,
-            roomDescription: description,
+            roomId: data.id,
+            roomName: data.name,
+            roomDescription: data.description,
         })),
     setAvailableRooms: (rooms: RoomAvailable[]) => 
         set(() => ({

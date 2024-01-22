@@ -99,6 +99,30 @@ export default class Network {
                 };
             };
         })
+
+        //player가 방에서 나갈때 일어나는 일을 미리 설정
+        this.room.state.players.onRemove((player: IPlayer, key: string) => {
+            //연결된 웹캠 지우고 플레이어 이름을 맵에서 제거해야함
+            phaserEvents.emit(Event.PLAYER_LEFT, key)
+            const { pushPlayerLeftMessage } = useChat((state) => state)
+            const { removePlayerNameMap } = useUserStore((state) => state)
+
+            pushPlayerLeftMessage(player.name)
+            removePlayerNameMap(key)
+
+            this.webRTC?.deleteVideoStream(key)
+            this.webRTC?.deleteOnCalledVideoStream(key)
+        })
+
+        //아이템들 (computer, chair, whiteboard, chatting)도 다 onAdd를 사용해서 생성해줘야함
+        //item에 연결된 유저가 추가되면 ITEM_USER_ADDED, 유저 연결 끊기면 ITEM_USER_REMOVED을 사용해서 다 업데이트 해줘야함
+
+        this.room.onMessage(Message.SEND_ROOM_DATA, (content) => {
+            const { setJoinedRoomData } = useRoomStore((state) => state)
+            setJoinedRoomData(content)
+        })
+
+        
     }
 
     //채팅방에 유저가 더 들어올때 사용하는 이런 event listener랑 function 실행
