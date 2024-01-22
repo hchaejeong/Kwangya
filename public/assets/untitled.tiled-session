@@ -39,6 +39,7 @@
             "scaleInDock": 1
         },
         "map/map.json#Modern_Office_Black_Shadow": {
+            "dynamicWrapping": false,
             "scaleInDock": 1
         },
         "map/map.json#chair": {

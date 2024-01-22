@@ -7,6 +7,11 @@ import Network from "../_services/network";
 import OtherPlayer from "../_actions/other_player";
 import { IPlayer } from "@/types/N1Building";
 import Computer from "../_items/computer";
+import Chair from "../_items/chair";
+import Whiteboard from "../_items/whiteboard";
+import Item from "../_items/item";
+import { PlayerBehavior } from "@/types/PlayerBehavior";
+import { Items } from "@/types/Items";
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -19,6 +24,7 @@ export default class Game extends Phaser.Scene {
   private map!: Phaser.Tilemaps.Tilemap;
   private playerSelector!: Phaser.GameObjects.Zone;
   computerMap = new Map<string, Computer>();
+  private whiteboardMap = new Map<string, Whiteboard>();
   // private whiteboardMap = new Map<string, Whiteboard>()
 
   constructor() {
@@ -133,12 +139,64 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.startFollow(this.myPlayer, true);
 
     //각 아이템들 추가 필요 (의자, 컴퓨터, 화이트보드, 커피머신)
+    const chairs = this.physics.add.staticGroup({ classType: Chair });
+    //Tiled에서 의자들은 Chair이라는 레이어로 따로 관리해줌
+    const chairLayer = this.map.getObjectLayer("Chair");
+    chairLayer?.objects.forEach((chair) => {
+      const item = this.addObjectElements(
+        chairs,
+        chair,
+        "chairs",
+        "chair"
+      ) as Chair;
+      //Tiled에서 custom properties의 첫 value로 direction을 적어놨다 (left, right, up, down)
+      item.itemDirection = chair.properties[0].value;
+    });
+
+    const computers = this.physics.add.staticGroup({ classType: Computer });
+    const computerLayer = this.map.getObjectLayer("Computer");
+    computerLayer?.objects.forEach((computer, i) => {
+      const item = this.addObjectElements(
+        computers,
+        computer,
+        "computers",
+        "computer"
+      ) as Computer;
+      //computer랑 whiteboard는 id로 object를 지정해줘야함
+      item.setDepth(item.y + item.height * 0.27);
+      const id = `${i}`;
+      item.id = id;
+      this.computerMap.set(id, item);
+    });
+
+    const whiteboards = this.physics.add.staticGroup({ classType: Whiteboard });
+    const whiteboardLayer = this.map.getObjectLayer("Whiteboard");
+    whiteboardLayer?.objects.forEach((whiteboard, i) => {
+      const item = this.addObjectElements(
+        whiteboards,
+        whiteboard,
+        "whiteboards",
+        "whiteboard"
+      ) as Whiteboard;
+      const id = `${i}`;
+      item.id = id;
+      this.whiteboardMap.set(id, item);
+    });
+
+    //const coffeeMachines = this.physics.add.staticGroup({ classType:})
     //this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], vendingMachines)
 
     this.otherPlayers = this.physics.add.group({ classType: OtherPlayer });
 
     //내 플레이어랑 아이템들 (컴퓨터, 화이트보드, 의자, 커피머신)이랑 다른 플레이어들과는 collide 말고 overlap 시킨다
-    //this.physics.add.overlap(this.playerSelector, [chairs, computers, whiteboards, coffee])
+    this.physics.add.overlap(
+      this.playerSelector,
+      [chairs, computers, whiteboards],
+      this.handleItemSelectorOverlap,
+      undefined,
+      this
+    );
+
     this.physics.add.overlap(
       this.playerSelector,
       this.otherPlayers,
@@ -152,13 +210,33 @@ export default class Game extends Phaser.Scene {
     this.network.onMyPlayerReady(this.handleMyPlayerReady, this);
     this.network.onMyPlayerVideoConnected(this.handleMyPlayerConnected, this);
     this.network.onPlayerUpdated(this.handlePlayerUpdated, this);
-    //this.network.onItemUserAdded(this.handleItemUserAdded, this)
-    // this.network.onItemUserRemoved(this.handleItemUserRemoved, this)
-    //this.network.onChatMessageAdded(this.handleChatMessageAdded, this)
+    this.network.onItemUserAdded(this.handleItemUserAdded, this);
+    this.network.onItemUserRemoved(this.handleItemUserRemoved, this);
+    this.network.onChatMessageAdded(this.handleChatMessageAdded, this);
   }
 
   private handlePlayersOverlap(myPlayer: any, otherPlayer: any) {
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
+  }
+
+  private addObjectElements(
+    group: Phaser.Physics.Arcade.StaticGroup,
+    object: Phaser.Types.Tilemaps.TiledObject,
+    key: string,
+    tilesetName: string
+  ) {
+    //실제 중간값의 좌표를 찾고 해당 object를 찾아서 띄우기
+    const x_position = object.x! + object.width! * 0.5;
+    const y_position = object.y! - object.height! * 0.5;
+
+    const tileset = this.map.getTileset(tilesetName);
+    if (tileset) {
+      const firstGid = tileset.firstgid;
+      const itemObj = group
+        .get(x_position, y_position, key, object.gid! - firstGid)
+        .setDepth(y_position);
+      return itemObj;
+    }
   }
 
   private addStaticGroupElements(
@@ -192,6 +270,24 @@ export default class Game extends Phaser.Scene {
         staticGroup
       );
     }
+  }
+
+  private handleItemSelectorOverlap(playerSelector: any, selectionItem: any) {
+    const item = playerSelector.selectedItem as Item;
+    //아직 플레이어가 아이템들과 연결되어있지 않을때 item은 현재 undefined인 상태
+    if (item) {
+      //현재 연결된 아이템과 아직 연결되어있을때 굳이 바꿀 부분이 없다
+      if (item === selectionItem || item.depth >= selectionItem.depth) {
+        return;
+      }
+
+      if (this.myPlayer.playerBehavior !== PlayerBehavior.SITTING) {
+        item.clearDialogBox();
+      }
+    }
+
+    playerSelector.selectedItem = selectionItem;
+    selectionItem.onOverlapDialog();
   }
 
   private handlePlayerJoined(newPlayer: IPlayer, id: string) {
@@ -231,6 +327,36 @@ export default class Game extends Phaser.Scene {
   ) {
     const otherPlayer = this.otherPlayerMap.get(id);
     otherPlayer?.updatePlayer(field, value);
+  }
+
+  private handleItemUserAdded(
+    playerId: string,
+    itemId: string,
+    itemType: Items
+  ) {
+    if (itemType === Items.COMPUTER) {
+      this.computerMap.get(itemId)?.addCurrentUser(playerId);
+    } else if (itemType === Items.WHITEBOARD) {
+      this.whiteboardMap.get(itemId)?.addCurrentUser(playerId);
+    }
+  }
+
+  private handleItemUserRemoved(
+    playerId: string,
+    itemId: string,
+    itemType: Items
+  ) {
+    if (itemType === Items.COMPUTER) {
+      this.computerMap.get(itemId)?.removeCurrentUser(playerId);
+    } else if (itemType === Items.WHITEBOARD) {
+      this.whiteboardMap.get(itemId)?.removeCurrentUser(playerId);
+    }
+  }
+
+  private handleChatMessageAdded(playerId: string, message: string) {
+    const otherPlayer = this.otherPlayerMap
+      .get(playerId)
+      ?.updatePlayerDialog(message);
   }
 
   update(time: number, delta: number): void {
