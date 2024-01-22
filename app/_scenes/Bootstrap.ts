@@ -1,9 +1,8 @@
 import * as Phaser from "phaser";
 import { BackgroundMode } from "@/types/BackgroundMode";
-import { useUserStore } from "../_stores/use-user";
-import { useRoomStore } from "../_stores/use-room";
 import Network from "../_services/network";
-import { useEffect } from "react";
+import store from "../_stores";
+import { setRoomJoined } from "../_stores/RoomStore";
 
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false;
@@ -128,8 +127,7 @@ export default class Bootstrap extends Phaser.Scene {
     });
 
     // update Redux state
-    const { setRoomJoined } = useRoomStore((state) => state);
-    setRoomJoined(true);
+    store.dispatch(setRoomJoined(true));
   }
 
   changeBackgroundMode(backgroundMode: BackgroundMode) {

@@ -3,9 +3,7 @@
 import { Message } from "@/types/Messages";
 import { Client, Room } from "colyseus.js";
 import { Event, phaserEvents } from "../_events/event-center";
-import { useRoomStore } from "../_stores/use-room";
 import { IRoomData } from "@/types/Room";
-import { useUserStore } from "../_stores/use-user";
 import {
   IChatting,
   IComputer,
@@ -14,10 +12,26 @@ import {
   IWhiteBoard,
 } from "@/types/N1Building";
 import WebRTC from "../_web/WebRTC";
-import { useChat } from "../_stores/use-chat";
 import { Items } from "@/types/Items";
-import { useWhiteboard } from "../_stores/use-whiteboard";
-import { useComputer } from "../_stores/use-computer";
+import store from "../_stores";
+import {
+  addAvailableRooms,
+  removeAvailableRooms,
+  setAvailableRooms,
+  setJoinedRoomData,
+  setLobbyJoined,
+} from "../_stores/RoomStore";
+import {
+  removePlayerNameMap,
+  setPlayerNameMap,
+  setSessionId,
+} from "../_stores/UserStore";
+import {
+  pushChatMessage,
+  pushPlayerJoinedMessage,
+  pushPlayerLeftMessage,
+} from "../_stores/ChatStore";
+import { setWhiteboardUrls } from "../_stores/WhiteboardStore";
 
 //network을 분리해야 플레이어가 다른 유저들의 움직임과 들어가고 나가는 것에 영향을 받지 않고 자유롭게 join하고 나가기위함이다
 export default class Network {
@@ -33,8 +47,7 @@ export default class Network {
     this.client = new Client(endpoint);
     //network는 client가 요청해서 서버에 연결하면 바로 Lobbyroom에 연결하도록
     this.joinLobbyRoom().then(() => {
-      const { setLobbyJoined } = useRoomStore((state) => state);
-      setLobbyJoined(true);
+      store.dispatch(setLobbyJoined(true));
     });
 
     //phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this)
@@ -49,19 +62,17 @@ export default class Network {
   //서버와 연결하면 바로 room에 들어갈수 있는 로비룸으로 바로 연결
   async joinLobbyRoom() {
     this.lobby = await this.client.joinOrCreate("lobby");
-    const { setAvailableRooms, addAvailableRooms, removeAvailableRooms } =
-      useRoomStore((state) => state);
 
     this.lobby.onMessage("rooms", (rooms) => {
-      setAvailableRooms(rooms);
+      store.dispatch(setAvailableRooms(rooms));
     });
 
     this.lobby.onMessage("+", ([roomId, room]) => {
-      addAvailableRooms(roomId, room);
+      store.dispatch(addAvailableRooms({ roomId, room }));
     });
 
     this.lobby.onMessage("-", (roomId) => {
-      removeAvailableRooms(roomId);
+      store.dispatch(removeAvailableRooms(roomId));
     });
   }
 
@@ -88,8 +99,7 @@ export default class Network {
     //메인 로비 페이지에서 나가서 실제 생성된 룸에 들어가기
     this.lobby.leave();
     this.mysessionId = this.room.sessionId;
-    const { setSessionId } = useUserStore((state) => state);
-    setSessionId(this.room.sessionId);
+    store.dispatch(setSessionId(this.room.sessionId));
     //현재 네트워크에서 생성된 룸의 세션아이디로 들어가서 웹rtc를 생성하기
     this.webRTC = new WebRTC(this.mysessionId, this);
 
@@ -101,9 +111,6 @@ export default class Network {
       //각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
       player.onChange = () => {
         return () => {
-          const { setPlayerNameMap } = useUserStore((state) => state);
-          const { pushPlayerJoinedMessage } = useChat((state) => state);
-
           // Access player properties directly from the player object
           const { name } = player;
 
@@ -112,8 +119,8 @@ export default class Network {
           // when a new player finished setting up player name
           if (name !== "") {
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
-            setPlayerNameMap(key, name);
-            pushPlayerJoinedMessage(name);
+            store.dispatch(setPlayerNameMap({ id: key, name: name }));
+            store.dispatch(pushPlayerJoinedMessage(name));
           }
         };
       };
@@ -123,11 +130,9 @@ export default class Network {
     this.room.state.players.onRemove((player: IPlayer, key: string) => {
       //연결된 웹캠 지우고 플레이어 이름을 맵에서 제거해야함
       phaserEvents.emit(Event.PLAYER_LEFT, key);
-      const { pushPlayerLeftMessage } = useChat((state) => state);
-      const { removePlayerNameMap } = useUserStore((state) => state);
 
-      pushPlayerLeftMessage(player.name);
-      removePlayerNameMap(key);
+      store.dispatch(pushPlayerLeftMessage(player.name));
+      store.dispatch(removePlayerNameMap(key));
 
       this.webRTC?.deleteVideoStream(key);
       this.webRTC?.deleteOnCalledVideoStream(key);
@@ -148,8 +153,9 @@ export default class Network {
       (whiteboard: IWhiteBoard, key: string) => {
         whiteboard.connectedUsers.onAdd((item, index) => {
           //실제로 whiteboard의 url을 띄워줘야하기 때문에 setWhiteboardUrls 메서드를 사용
-          const { setWhiteboardUrls } = useWhiteboard((state) => state);
-          setWhiteboardUrls(key, whiteboard.roomId);
+          store.dispatch(
+            setWhiteboardUrls({ whiteboardId: key, roomId: whiteboard.roomId })
+          );
 
           whiteboard.connectedUsers.onAdd((item, index) => {
             phaserEvents.emit(
@@ -172,13 +178,11 @@ export default class Network {
     );
 
     this.room.state.chatMessages.onAdd((chat: IChatting, key: number) => {
-      const { pushChatMessage } = useChat((state) => state);
-      pushChatMessage(chat);
+      store.dispatch(pushChatMessage(chat));
     });
 
     this.room.onMessage(Message.SEND_ROOM_DATA, (content) => {
-      const { setJoinedRoomData } = useRoomStore((state) => state);
-      setJoinedRoomData(content);
+      store.dispatch(setJoinedRoomData(content));
     });
 
     this.room.onMessage(Message.DISCONNECT_STREAM, (clientId: string) => {
@@ -186,7 +190,7 @@ export default class Network {
     });
 
     this.room.onMessage(Message.STOP_SCREEN_SHARE, (clientId: string) => {
-      const { shareScreenManager } = useComputer((state) => state);
+      const shareScreenManager = store.getState().computer.shareScreenManager;
       shareScreenManager?.onUserLeft(clientId);
     });
   }

@@ -1,8 +1,12 @@
-import { Store } from "lucide-react";
 import Peer from "peerjs";
-import { useComputer } from "../_stores/use-computer";
 import phaserGame from "../PhaserGame";
 import Game from "../_scenes/Game";
+import store from "../_stores";
+import {
+  addVideoStream,
+  removeVideoStream,
+  setMyStream,
+} from "../_stores/ComputerStore";
 
 export default class ShareScreenManager {
   private myPeer: Peer;
@@ -22,8 +26,9 @@ export default class ShareScreenManager {
       call.answer();
 
       call.on("stream", (userVideoStream) => {
-        const { addVideoStream } = useComputer((state) => state);
-        addVideoStream(call.peer, call, userVideoStream);
+        store.dispatch(
+          addVideoStream({ id: call.peer, call, stream: userVideoStream })
+        );
       });
     });
   }
@@ -61,9 +66,8 @@ export default class ShareScreenManager {
 
         this.myStream = stream;
 
-        const { computerId, setMyStream } = useComputer((state) => state);
-
-        setMyStream(stream);
+        store.dispatch(setMyStream(stream));
+        const computerId = store.getState().computer.computerId;
 
         //call all existing users
         const game = phaserGame.scene.keys.game as Game;
@@ -81,10 +85,9 @@ export default class ShareScreenManager {
     this.myStream?.getTracks().forEach((track) => track.stop());
     this.myStream = undefined;
 
-    const { computerId, setMyStream } = useComputer((state) => state);
-    setMyStream(null);
-
     if (shouldDispatch) {
+      store.dispatch(setMyStream(null));
+      const computerId = store.getState().computer.computerId;
       //let other users know screen share is stopped
       const game = phaserGame.scene.keys.game as Game;
       game.network.onStopScreenShare(computerId!);
@@ -101,9 +104,8 @@ export default class ShareScreenManager {
   onUserLeft(userId: string) {
     if (userId === this.userId) return;
 
-    const { removeVideoStream } = useComputer((state) => state);
     const sanitizedId = this.makeId(userId);
 
-    removeVideoStream(sanitizedId);
+    store.dispatch(removeVideoStream(sanitizedId));
   }
 }

@@ -3,8 +3,9 @@
 import Peer, { MediaConnection } from "peerjs";
 
 import { ElementRef, useRef } from "react";
-import { useUserStore } from "../_stores/use-user";
 import Network from "../_services/network";
+import store from "../_stores";
+import { setVideoConnected } from "../_stores/UserStore";
 
 export default class WebRTC {
   private myPeer: Peer;
@@ -81,12 +82,10 @@ export default class WebRTC {
         audio: true,
       })
       .then((stream) => {
-        const { setVideoConnected } = useUserStore((state) => state);
-
         this.myStream = stream;
         this.addVideoStream(this.myVideo, this.myStream);
+        store.dispatch(setVideoConnected(true));
         // this.setUpButtons();
-        setVideoConnected(true);
         this.network.videoConnected();
       })
       .catch((error) => {
