@@ -1,27 +1,26 @@
-import http from 'http'
-import express from 'express'
-import cors from 'cors'
-import { Server, LobbyRoom } from 'colyseus'
-import { monitor } from '@colyseus/monitor'
+import http from "http";
+import express from "express";
+import cors from "cors";
+import { Server, LobbyRoom } from "colyseus";
+import { monitor } from "@colyseus/monitor";
+import { Office } from "./rooms/Office";
 // import socialRoutes from "@colyseus/social/express"
 
-import { Office } from './rooms/Office'
+const port = Number(process.env.PORT || 2567);
+const app = express();
 
-const port = Number(process.env.PORT || 2567)
-const app = express()
-
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 // app.use(express.static('dist'))
 
-const server = http.createServer(app)
+const server = http.createServer(app);
 const gameServer = new Server({
   server,
-})
+});
 
 // register room handlers
-gameServer.define("lobby", LobbyRoom) //built in room
-gameServer.define("custom", Office).enableRealtimeListing()
+gameServer.define("lobby", LobbyRoom); //built in room
+gameServer.define("custom", Office).enableRealtimeListing();
 
 /**
  * Register @colyseus/social routes
@@ -32,7 +31,7 @@ gameServer.define("custom", Office).enableRealtimeListing()
 // app.use("/", socialRoutes);
 
 // register colyseus monitor AFTER registering your room handlers
-app.use('/colyseus', monitor())
+app.use("/colyseus", monitor());
 
-gameServer.listen(port)
-console.log(`Listening on ws://localhost:${port}`)
+gameServer.listen(port);
+console.log(`Listening on ws://localhost:${port}`);
