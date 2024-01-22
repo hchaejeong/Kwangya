@@ -15,6 +15,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CustomRoomTable } from './custom_room_table'
 import { CreateRoomForm } from './create_room_component'
 import { useRoomStore } from '../_stores/use-room'
+import phaserGame from '../PhaserGame'
+import Bootstrap from '../_scenes/Bootstrap'
 
 const Backdrop = styled.div`
   position: absolute;
@@ -106,6 +108,15 @@ export default function MainEnterRoomPage() {
   const [showSnackbar, setShowSnackbar] = useState(false)
   const { lobbyJoined } = useRoomStore((state) => state)
 
+  const handleConnect = () => {
+    if (lobbyJoined) {
+        const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap
+        bootstrap.launchGame()
+    } else {
+        setShowSnackbar(true)
+    }
+  }
+
   return (
     <>
       <Snackbar
@@ -169,6 +180,8 @@ export default function MainEnterRoomPage() {
               <Title>Welcome to Madcamp</Title>
               <Content>
                 <img src={logo.src} alt="logo" />
+                <Button variant="contained" color="secondary" onClick={handleConnect}>
+                </Button>
                 <Button
                   variant="outlined"
                   color="secondary"

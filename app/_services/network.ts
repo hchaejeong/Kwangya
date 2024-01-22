@@ -27,7 +27,7 @@ export default class Network {
           setLobbyJoined(true)
         })
     
-        phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this)
+        //phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this)
         phaserEvents.on(Event.MY_PLAYER_TEXTURE_CHANGE, this.updatePlayer, this)
         phaserEvents.on(Event.PLAYER_DISCONNECTED, this.playerStreamDisconnect, this)
       }
@@ -175,14 +175,9 @@ export default class Network {
         phaserEvents.on(Event.PLAYER_UPDATED, callback, context)
     }
 
-    // 현재 플레이어의 position이랑 애니메이션 상태 업데이트 꾸준히 해주기
-    updatePlayer(currentX: number, currentY: number, currentAnim: string) {
-        this.room?.send(Message.UPDATE_PLAYER, { x: currentX, y: currentY, anim: currentAnim })
-    }
-
-    // 플레이어 이름 업데이트 해주기
-    updatePlayerName(currentName: string) {
-        this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName })
+    // 현재 플레이어의 position이랑 이름, 애니메이션 상태 업데이트 꾸준히 해주기
+    updatePlayer(currentX: number, currentY: number, currentName: string, currentAnim: string) {
+        this.room?.send(Message.UPDATE_PLAYER, { x: currentX, y: currentY, name: currentName, anim: currentAnim })
     }
 
     // 서버랑 연결 될때

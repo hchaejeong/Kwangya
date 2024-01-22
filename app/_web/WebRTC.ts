@@ -1,3 +1,5 @@
+'use client'
+
 import Peer, { MediaConnection } from "peerjs";
 import { ElementRef, useRef } from "react";
 import { useUserStore } from "../_stores/use-user";

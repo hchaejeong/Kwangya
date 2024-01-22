@@ -1,4 +1,4 @@
-import { IComputer, IPlayer } from "@/types/N1Building";
+import { IChatting, IComputer, IN1Building, IPlayer, IWhiteBoard } from "@/types/N1Building";
 import { ArraySchema, MapSchema, Schema, SetSchema, type } from "@colyseus/schema";
 
 import { v4 as uuidv4 } from 'uuid';
@@ -21,9 +21,9 @@ export class WhiteBoard extends Schema {
     @type({ set: 'string' }) connectedUsers = new SetSchema<string>();
 }
 
-export class Chatting extends Schema {
+export class Chatting extends Schema implements IChatting {
     @type('string') user = ''
-    @type('number') messageSentTime = new Date().getTime
+    @type('number') messageSentTime = new Date().getTime()
     @type('string') content = ''
 }
 
