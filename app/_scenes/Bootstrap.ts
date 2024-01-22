@@ -3,6 +3,7 @@ import { BackgroundMode } from '@/types/BackgroundMode'
 import { useUserStore } from "../_stores/use-user";
 import { useRoomStore } from "../_stores/use-room";
 import Network from "../_services/network";
+import { useEffect } from "react";
 
 export default class Bootstrap extends Phaser.Scene {
   private preloadComplete = false
@@ -78,9 +79,10 @@ export default class Bootstrap extends Phaser.Scene {
       frameHeight: 48,
     })
 
+    const currentHour = new Date().getHours()
+    const backgroundMode = currentHour > 6 && currentHour <= 18 ? BackgroundMode.DAY : BackgroundMode.NIGHT
     this.load.on('complete', () => {
       this.preloadComplete = true
-      const { backgroundMode } = useUserStore((state) => state)
       this.launchBackground(backgroundMode)
     })
   }

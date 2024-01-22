@@ -1,4 +1,5 @@
-'use client'
+"use client";
+
 import Peer, { MediaConnection } from "peerjs";
 
 import { ElementRef, useRef } from "react";
