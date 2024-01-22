@@ -5,7 +5,7 @@ import { Server, LobbyRoom } from 'colyseus'
 import { monitor } from '@colyseus/monitor'
 // import socialRoutes from "@colyseus/social/express"
 
-import { N1Building } from './rooms/N1Building'
+import { Office } from './rooms/Office'
 
 const port = Number(process.env.PORT || 2567)
 const app = express()
@@ -21,7 +21,7 @@ const gameServer = new Server({
 
 // register room handlers
 gameServer.define("lobby", LobbyRoom) //built in room
-gameServer.define("custom", N1Building).enableRealtimeListing()
+gameServer.define("custom", Office).enableRealtimeListing()
 
 /**
  * Register @colyseus/social routes

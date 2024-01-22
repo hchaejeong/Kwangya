@@ -2,9 +2,9 @@ import { ArraySchema, MapSchema, Schema, SetSchema } from "@colyseus/schema";
 
 export interface IPlayer extends Schema {
     name: string
-    x_position: number
-    y_position: number
-    animation: string
+    x: number
+    y: number
+    anim: string
     readyToConnect: boolean
     videoConnected: boolean
 }

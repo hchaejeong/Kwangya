@@ -1,0 +1,105 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "map/map.json",
+    "expandedProjectPaths": [
+        "map",
+        "character",
+        "background"
+    ],
+    "fileStates": {
+        "map/map.json": {
+            "expandedObjectLayers": [
+                7,
+                6,
+                5,
+                13,
+                4,
+                8
+            ],
+            "scale": 1.3277,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 360.3976801988401,
+                "y": 715.5230850342697
+            }
+        },
+        "map/map.json#Basement": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map/map.json#FloorAndGround": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map/map.json#Generic": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map/map.json#Modern_Office_Black_Shadow": {
+            "scaleInDock": 1
+        },
+        "map/map.json#chair": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "map/map.json#computer": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map/map.json#vendingmachine": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map/map.json#whiteboard": {
+            "scaleInDock": 1
+        },
+        "map/map.tmx": {
+            "scale": 0.4611,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 612.6653654304922,
+                "y": 455.43266102797645
+            }
+        },
+        "map/map.tmx#Basement": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map/map.tmx#FloorAndGround": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "map/map.tmx#Generic": {
+            "scaleInDock": 1
+        },
+        "map/map.tmx#Modern_Office_Black_Shadow": {
+            "scaleInDock": 1
+        },
+        "map/map.tmx#chair": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "map/map.tmx#computer": {
+            "scaleInDock": 1
+        },
+        "map/map.tmx#vendingmachine": {
+            "scaleInDock": 1
+        },
+        "map/map.tmx#whiteboard": {
+            "scaleInDock": 1
+        }
+    },
+    "last.imagePath": "/Users/hyeonchaejeong/Documents/Work/Madcamp-Fourth-Week/public/assets/tileset",
+    "openFiles": [
+        "map/map.json",
+        "map/map.tmx"
+    ],
+    "project": "untitled.tiled-project",
+    "recentFiles": [
+        "map/map.tmx",
+        "map/map.json"
+    ]
+}

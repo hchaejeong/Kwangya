@@ -1,3 +1,5 @@
+'use client'
+
 import { Joystick } from "react-joystick-component"
 
 export interface JoystickStatus {
