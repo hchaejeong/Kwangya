@@ -19,6 +19,8 @@ import { useRoomStore } from "../_stores/use-room";
 import phaserGame from "../PhaserGame";
 import Bootstrap from "../_scenes/Bootstrap";
 import { useAppSelector } from "../hooks";
+import LoginDialog from "./login_component";
+import { Chat } from "./chat";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -109,100 +111,110 @@ export default function MainEnterRoomPage() {
   const [showCreateRoomForm, setShowCreateRoomForm] = useState(false);
   //const [roomCreated, setRoomCreated] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [loginPage, setLoginPage] = useState(false);
+  const [joinedRoom, setJoinedRoom] = useState(false);
+
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
 
-  return (
-    <>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={showSnackbar}
-        autoHideDuration={3000}
-        onClose={() => {
-          setShowSnackbar(false);
-        }}
-      >
-        <Alert
-          severity="error"
-          variant="outlined"
-          // overwrites the dark theme on render
-          style={{ background: "#fdeded", color: "#7d4747" }}
+  if (loginPage && !loggedIn) {
+    return <LoginDialog />;
+  } else if (loggedIn) {
+    return <Chat />;
+  } else {
+    return (
+      <>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={showSnackbar}
+          autoHideDuration={3000}
+          onClose={() => {
+            setShowSnackbar(false);
+          }}
         >
-          Trying to connect to server, please try again!
-        </Alert>
-      </Snackbar>
-      <Backdrop>
-        <Wrapper>
-          {showCreateRoomForm ? (
-            <CustomRoomWrapper>
-              <TitleWrapper>
-                <IconButton
-                  className="back-button"
-                  onClick={() => setShowCreateRoomForm(false)}
-                >
-                  <ArrowBackIcon />
-                </IconButton>
-                <Title>Create Custom Room</Title>
-              </TitleWrapper>
-              <CreateRoomForm />
-            </CustomRoomWrapper>
-          ) : showCustomRoom ? (
-            <CustomRoomWrapper>
-              <TitleWrapper>
-                <IconButton
-                  className="back-button"
-                  onClick={() => setShowCustomRoom(false)}
-                >
-                  <ArrowBackIcon />
-                </IconButton>
-                <Title>
-                  Custom Rooms
-                  <Tooltip
-                    title="We update the results in realtime, no refresh needed!"
-                    placement="top"
+          <Alert
+            severity="error"
+            variant="outlined"
+            // overwrites the dark theme on render
+            style={{ background: "#fdeded", color: "#7d4747" }}
+          >
+            Trying to connect to server, please try again!
+          </Alert>
+        </Snackbar>
+        <Backdrop>
+          <Wrapper>
+            {showCreateRoomForm ? (
+              <CustomRoomWrapper>
+                <TitleWrapper>
+                  <IconButton
+                    className="back-button"
+                    onClick={() => setShowCreateRoomForm(false)}
                   >
-                    <IconButton>
-                      <HelpOutlineIcon className="tip" />
-                    </IconButton>
-                  </Tooltip>
-                </Title>
-              </TitleWrapper>
-              <CustomRoomTable />
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => setShowCreateRoomForm(true)}
-              >
-                Create new room
-              </Button>
-            </CustomRoomWrapper>
-          ) : (
-            <>
-              <Title>Welcome to Madcamp</Title>
-              <Content>
-                <img src={logo.src} alt="logo" />
+                    <ArrowBackIcon />
+                  </IconButton>
+                  <Title>Create Custom Room</Title>
+                </TitleWrapper>
+                <CreateRoomForm setLoginPage={setLoginPage} />
+              </CustomRoomWrapper>
+            ) : showCustomRoom ? (
+              <CustomRoomWrapper>
+                <TitleWrapper>
+                  <IconButton
+                    className="back-button"
+                    onClick={() => setShowCustomRoom(false)}
+                  >
+                    <ArrowBackIcon />
+                  </IconButton>
+                  <Title>
+                    Custom Rooms
+                    <Tooltip
+                      title="We update the results in realtime, no refresh needed!"
+                      placement="top"
+                    >
+                      <IconButton>
+                        <HelpOutlineIcon className="tip" />
+                      </IconButton>
+                    </Tooltip>
+                  </Title>
+                </TitleWrapper>
+                <CustomRoomTable />
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   color="secondary"
-                  onClick={() =>
-                    lobbyJoined
-                      ? setShowCustomRoom(true)
-                      : setShowSnackbar(true)
-                  }
+                  onClick={() => setShowCreateRoomForm(true)}
                 >
-                  Create/find custom rooms
+                  Create new room
                 </Button>
-              </Content>
-            </>
+              </CustomRoomWrapper>
+            ) : (
+              <>
+                <Title>Welcome to Madcamp</Title>
+                <Content>
+                  <img src={logo.src} alt="logo" />
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() =>
+                      lobbyJoined
+                        ? setShowCustomRoom(true)
+                        : setShowSnackbar(true)
+                    }
+                  >
+                    Create/find custom rooms
+                  </Button>
+                </Content>
+              </>
+            )}
+          </Wrapper>
+          {!lobbyJoined && (
+            <ProgressBarWrapper>
+              <h3> Connecting to server...</h3>
+              <ProgressBar color="secondary" />
+            </ProgressBarWrapper>
           )}
-        </Wrapper>
-        {!lobbyJoined && (
-          <ProgressBarWrapper>
-            <h3> Connecting to server...</h3>
-            <ProgressBar color="secondary" />
-          </ProgressBarWrapper>
-        )}
-      </Backdrop>
-    </>
-  );
+        </Backdrop>
+      </>
+    );
+  }
 }

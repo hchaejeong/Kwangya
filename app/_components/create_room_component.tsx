@@ -22,7 +22,11 @@ const CreateRoomFormWrapper = styled.form`
   gap: 20px;
 `;
 
-export const CreateRoomForm = () => {
+interface CreateRoomProps {
+  setLoginPage: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const CreateRoomForm = ({ setLoginPage }: CreateRoomProps) => {
   const [values, setValues] = useState<IRoomData>({
     name: "",
     description: "",
@@ -58,6 +62,8 @@ export const CreateRoomForm = () => {
         .createCustom(values)
         .then(() => bootstrap.launchGame())
         .catch((error) => console.error(error));
+
+      setLoginPage(true);
     }
   };
 
