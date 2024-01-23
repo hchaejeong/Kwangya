@@ -31,13 +31,13 @@ export const chatSlice = createSlice({
   initialState,
   reducers: {
     pushChatMessage: (state, action: PayloadAction<IChatting>) => {
-      state.chatMessages.push({
+      state.chatMessages.unshift({
         messageType: MessageType.NORMAL_MESSAGE,
         chatMessage: action.payload,
       });
     },
     pushPlayerJoinedMessage: (state, action: PayloadAction<string>) => {
-      state.chatMessages.push({
+      state.chatMessages.unshift({
         messageType: MessageType.PLAYER_JOINED,
         chatMessage: {
           messageSentTime: new Date().getTime(),
@@ -47,7 +47,7 @@ export const chatSlice = createSlice({
       });
     },
     pushPlayerLeftMessage: (state, action: PayloadAction<string>) => {
-      state.chatMessages.push({
+      state.chatMessages.unshift({
         messageType: MessageType.PLAYER_LEFT,
         chatMessage: {
           messageSentTime: new Date().getTime(),

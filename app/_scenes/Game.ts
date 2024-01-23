@@ -14,6 +14,8 @@ import Whiteboard from "../_items/whiteboard";
 import Item from "../_items/item";
 import { PlayerBehavior } from "@/types/PlayerBehavior";
 import { Items } from "@/types/Items";
+import { setShowChat, setFocused } from "../_stores/ChatStore";
+import store from "../_stores";
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -56,6 +58,14 @@ export default class Game extends Phaser.Scene {
 
     this.input.keyboard?.disableGlobalCapture();
     //여기서 chatting할때 쓰는 enter랑 esc를 또 정의해준다
+
+    this.input.keyboard?.on("keydown-ENTER", () => {
+      store.dispatch(setShowChat(true));
+      store.dispatch(setFocused(true));
+    });
+    this.input.keyboard?.on("keydown-ESC", () => {
+      store.dispatch(setShowChat(false));
+    });
   }
 
   disableKeys() {
