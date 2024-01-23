@@ -319,10 +319,11 @@ export default class Game extends Phaser.Scene {
   }
 
   private handlePlayerJoined(newPlayer: IPlayer, id: string) {
+    const texture = newPlayer.anim.split("_")[0];
     const otherPlayer = this.add.otherPlayer(
       newPlayer.x,
       newPlayer.y,
-      "adam",
+      texture,
       id,
       newPlayer.name
     );
@@ -356,6 +357,7 @@ export default class Game extends Phaser.Scene {
   ) {
     const otherPlayer = this.otherPlayerMap.get(id);
     otherPlayer?.updatePlayer(field, value);
+    console.log("other player being updated");
   }
 
   private handleItemUserAdded(

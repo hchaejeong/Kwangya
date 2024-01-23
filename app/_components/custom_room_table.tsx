@@ -185,7 +185,7 @@ export const CustomRoomTable = ({ setLoginPage }: CustomRoomProps) => {
                     >
                       <Button
                         variant="outlined"
-                        color="secondary"
+                        style={{ color: "black", borderColor: "lightblue" }}
                         onClick={() => {
                           console.log(passwordBeingUsed);
                           if (passwordBeingUsed) {
@@ -226,7 +226,26 @@ export const CustomRoomTable = ({ setLoginPage }: CustomRoomProps) => {
               label="Password"
               type="password"
               variant="outlined"
-              color="secondary"
+              InputProps={{ style: { color: "white" } }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "lightblue",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "lightblue",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "lightblue",
+                  },
+                },
+                "& .MuiInputLabel-root": {
+                  color: "white",
+                },
+                "& .MuiInputLabel-root.Mui-focused": {
+                  color: "white",
+                },
+              }}
               onInput={(e) => {
                 setPassword((e.target as HTMLInputElement).value);
               }}
@@ -238,10 +257,18 @@ export const CustomRoomTable = ({ setLoginPage }: CustomRoomProps) => {
             )}
           </DialogContent>
           <DialogActions>
-            <Button color="secondary" onClick={resetPasswordDialog}>
+            <Button
+              variant="outlined"
+              style={{ color: "white", borderColor: "lightblue" }}
+              onClick={resetPasswordDialog}
+            >
               Cancel
             </Button>
-            <Button color="secondary" type="submit">
+            <Button
+              variant="outlined"
+              style={{ color: "white", borderColor: "lightblue" }}
+              type="submit"
+            >
               Join
             </Button>
           </DialogActions>

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import logo from "@/public/images/logo.png";
+import logo from "@/public/images/logo.svg";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -194,7 +194,7 @@ export default function MainEnterRoomPage() {
                 <CustomRoomTable setLoginPage={setLoginPage} />
                 <Button
                   variant="contained"
-                  color="secondary"
+                  style={{ color: "white", backgroundColor: "#528c9e" }}
                   onClick={() => setShowCreateRoomForm(true)}
                 >
                   Create new room
@@ -207,7 +207,7 @@ export default function MainEnterRoomPage() {
                   <img src={logo.src} alt="logo" />
                   <Button
                     variant="outlined"
-                    color="secondary"
+                    style={{ color: "white", borderColor: "lightblue" }}
                     onClick={() =>
                       lobbyJoined
                         ? setShowCustomRoom(true)
