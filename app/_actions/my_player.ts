@@ -131,12 +131,7 @@ export default class MyPlayer extends Player {
             }
 
             if (this.anims.currentAnim) {
-              network.updatePlayer(
-                this.x,
-                this.y,
-                this.name,
-                this.anims.currentAnim.key
-              );
+              network.updatePlayer(this.x, this.y, this.name);
             }
           },
           loop: false,
@@ -207,12 +202,7 @@ export default class MyPlayer extends Player {
           this.playerBehavior = PlayerBehavior.STANDING;
         }
         if (this.anims.currentAnim) {
-          network.updatePlayer(
-            this.x,
-            this.y,
-            this.name,
-            this.anims.currentAnim.key
-          );
+          network.updatePlayer(this.x, this.y, this.name);
         } else {
           console.log("no animation available");
         }
@@ -223,6 +213,9 @@ export default class MyPlayer extends Player {
   //player animation이랑 새로운 location을 server로 보내주는 역할
   updatePlayerAnimation(vx: number, vy: number, network: Network) {
     if (this.anims.currentAnim) {
+      if (vx !== 0 || vy !== 0) {
+        network.updatePlayer(this.x, this.y, this.name);
+      }
       if (vx > 0) {
         this.play(`${this.playerTexture}_run_right`, true);
       } else if (vx < 0) {
@@ -239,12 +232,7 @@ export default class MyPlayer extends Player {
         if (this.anims.currentAnim.key !== newAnim) {
           this.play(parts.join("_"), true);
           // send new location and anim to server
-          network.updatePlayer(
-            this.x,
-            this.y,
-            this.name,
-            this.anims.currentAnim.key
-          );
+          network.updatePlayer(this.x, this.y, this.name);
         }
       }
     } else {

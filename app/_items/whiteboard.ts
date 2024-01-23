@@ -51,4 +51,12 @@ export default class Whiteboard extends Item {
     store.dispatch(openWhiteboardDialog(this.id));
     network.connectToWhiteboard(this.id);
   }
+
+  onOverlapDialog() {
+    if (this.currentUsers.size === 0) {
+      this.setDialogBox("Press R to use whiteboard");
+    } else {
+      this.setDialogBox("Press R to join");
+    }
+  }
 }

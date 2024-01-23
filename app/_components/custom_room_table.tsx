@@ -88,7 +88,11 @@ const PasswordDialog = styled(Dialog)`
   }
 `;
 
-export const CustomRoomTable = () => {
+interface CustomRoomProps {
+  setLoginPage: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const CustomRoomTable = ({ setLoginPage }: CustomRoomProps) => {
   const [password, setPassword] = useState("");
   const [selectedRoom, setSelectedRoom] = useState("");
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
@@ -103,10 +107,16 @@ export const CustomRoomTable = () => {
     const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
     bootstrap.network
       .joinCustomById(roomId, password)
-      .then(() => bootstrap.launchGame())
+      .then(() => {
+        bootstrap.launchGame();
+        setLoginPage(true);
+      })
       .catch((error) => {
         console.error(error);
-        if (password) setShowPasswordError(true);
+        if (password) {
+          setShowPasswordError(true);
+        }
+        return;
       });
   };
 
@@ -149,7 +159,8 @@ export const CustomRoomTable = () => {
           <TableBody>
             {availableRooms.map((room) => {
               const { roomId, metadata, clients } = room;
-              const { name, description, hasPassword } = metadata;
+              const { name, description, passwordBeingUsed } = metadata;
+              console.log(room);
               return (
                 <TableRowWrapper key={roomId}>
                   <TableCell>
@@ -169,12 +180,15 @@ export const CustomRoomTable = () => {
                   <TableCell>{roomId}</TableCell>
                   <TableCell align="center">{clients}</TableCell>
                   <TableCell align="center">
-                    <Tooltip title={hasPassword ? "Password required" : ""}>
+                    <Tooltip
+                      title={passwordBeingUsed ? "Password required" : ""}
+                    >
                       <Button
                         variant="outlined"
                         color="secondary"
                         onClick={() => {
-                          if (hasPassword) {
+                          console.log(passwordBeingUsed);
+                          if (passwordBeingUsed) {
                             setShowPasswordDialog(true);
                             setSelectedRoom(roomId);
                           } else {
@@ -183,7 +197,9 @@ export const CustomRoomTable = () => {
                         }}
                       >
                         <div className="join-wrapper">
-                          {hasPassword && <LockIcon className="lock-icon" />}
+                          {passwordBeingUsed && (
+                            <LockIcon className="lock-icon" />
+                          )}
                           Join
                         </div>
                       </Button>

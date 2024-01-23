@@ -15,6 +15,7 @@ import {
 } from "../actions/update-whiteboard-user";
 import UpdateChats from "../actions/update-chats";
 import { Message } from "../../types/Messages";
+import PlayerUpdateNameCommand from "../actions/update_user_name";
 
 export class Office extends Room<N1Building> {
   private dispatcher = new Dispatcher(this);
@@ -30,13 +31,15 @@ export class Office extends Room<N1Building> {
     this.description = description;
     this.autoDispose = autoDispose;
 
-    var passwordBeingUsed = false;
+    let passwordBeingUsed = false;
     if (password) {
       //room의 password를 salt를 추가해서 encrypt한걸로 저장하기
       const salt = await bcrypt.genSalt();
       this.password = await bcrypt.hash(password, salt);
+      console.log("password: ", this.password);
       passwordBeingUsed = true;
     }
+    console.log("room password: ", passwordBeingUsed);
     this.setMetadata({ name, description, passwordBeingUsed });
     //initialize empty room state로 새로운 방 생성
     this.setState(new N1Building());
@@ -126,10 +129,19 @@ export class Office extends Room<N1Building> {
       ) => {
         this.dispatcher.dispatch(new PlayerEnterCommand(), {
           client,
-          name: message.name,
           x: message.x,
           y: message.y,
           anim: message.anim,
+        });
+      }
+    );
+
+    this.onMessage(
+      Message.UPDATE_PLAYER_NAME,
+      (client, message: { name: string }) => {
+        this.dispatcher.dispatch(new PlayerUpdateNameCommand(), {
+          client,
+          name: message.name,
         });
       }
     );

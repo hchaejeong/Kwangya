@@ -50,7 +50,7 @@ export default class Network {
       store.dispatch(setLobbyJoined(true));
     });
 
-    //phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this)
+    phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this);
     phaserEvents.on(Event.MY_PLAYER_TEXTURE_CHANGE, this.updatePlayer, this);
     phaserEvents.on(
       Event.PLAYER_DISCONNECTED,
@@ -118,6 +118,7 @@ export default class Network {
 
           // when a new player finished setting up player name
           if (name !== "") {
+            console.log("name: ", name);
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
             store.dispatch(setPlayerNameMap({ id: key, name: name }));
             store.dispatch(pushPlayerJoinedMessage(name));
@@ -251,18 +252,16 @@ export default class Network {
   }
 
   // 현재 플레이어의 position이랑 이름, 애니메이션 상태 업데이트 꾸준히 해주기
-  updatePlayer(
-    currentX: number,
-    currentY: number,
-    currentName: string,
-    currentAnim: string
-  ) {
+  updatePlayer(currentX: number, currentY: number, currentAnim: string) {
     this.room?.send(Message.UPDATE_PLAYER, {
       x: currentX,
       y: currentY,
-      name: currentName,
       anim: currentAnim,
     });
+  }
+
+  updatePlayerName(currentName: string) {
+    this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName });
   }
 
   // 서버랑 연결 될때
