@@ -109,22 +109,22 @@ export default class Network {
       console.log(player, "has been added at", key);
 
       //각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
-      player.onChange = () => {
-        return () => {
-          // Access player properties directly from the player object
-          const { name } = player;
+      player.onChange(() => {
+        if (key === this.mysessionId) return;
+        // Access player properties directly from the player object
+        console.log("player: ", player);
+        const { name } = player;
 
-          phaserEvents.emit(Event.PLAYER_UPDATED, "name", name, key);
+        phaserEvents.emit(Event.PLAYER_UPDATED, "name", name, key);
 
-          // when a new player finished setting up player name
-          if (name !== "") {
-            console.log("name: ", name);
-            phaserEvents.emit(Event.PLAYER_JOINED, player, key);
-            store.dispatch(setPlayerNameMap({ id: key, name: name }));
-            store.dispatch(pushPlayerJoinedMessage(name));
-          }
-        };
-      };
+        // when a new player finished setting up player name
+        if (name !== "") {
+          console.log("name: ", name);
+          phaserEvents.emit(Event.PLAYER_JOINED, player, key);
+          store.dispatch(setPlayerNameMap({ id: key, name: name }));
+          store.dispatch(pushPlayerJoinedMessage(name));
+        }
+      });
     });
 
     //player가 방에서 나갈때 일어나는 일을 미리 설정

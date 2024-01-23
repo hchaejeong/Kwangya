@@ -2141,30 +2141,6 @@
                 {
                  "gid":3016,
                  "height":32,
-                 "id":663,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":1184.10685729774,
-                 "y":727.872208587348
-                }, 
-                {
-                 "gid":3032,
-                 "height":32,
-                 "id":664,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":1184.10685729774,
-                 "y":759.872208587348
-                }, 
-                {
-                 "gid":3016,
-                 "height":32,
                  "id":587,
                  "name":"",
                  "rotation":0,
@@ -5417,6 +5393,30 @@
                  "width":32,
                  "x":1212.85799846555,
                  "y":882.354498105052
+                }, 
+                {
+                 "gid":3016,
+                 "height":32,
+                 "id":663,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1184.10685729774,
+                 "y":727.872208587348
+                }, 
+                {
+                 "gid":3032,
+                 "height":32,
+                 "id":664,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":1184.10685729774,
+                 "y":759.872208587348
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -7244,7 +7244,7 @@
          "y":0
         }],
  "nextlayerid":15,
- "nextobjectid":1831,
+ "nextobjectid":1837,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

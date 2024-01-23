@@ -10,7 +10,7 @@ import Item from "../_items/item";
 //player가 게임 맵에서 다른 요소들과 소통하고 교류할 수 있도록 해주는 부분
 export class PlayerMovement extends Phaser.GameObjects.Zone {
   //의자, 컴퓨터, 화이트보드 아이템들과 플레이어랑 가까워지면 dialog 띄워주는 느낌
-  item?: Item;
+  selectedItem?: Item;
 
   constructor(
     scene: Phaser.Scene,
@@ -66,12 +66,15 @@ export class PlayerMovement extends Phaser.GameObjects.Zone {
       this.setPosition(x, y + 32);
     }
 
-    if (this.item) {
+    if (this.selectedItem) {
       //player랑 다른 아이템 (컴퓨터, 화이트보드, 의자)와 collide하고 있지 않으면 dialog 띄울 필요 없음
-      if (!this.scene.physics.overlap(this, this.item)) {
-        this.item.clearDialogBox();
-        this.item = undefined;
+      if (!this.scene.physics.overlap(this, this.selectedItem)) {
+        console.log("no overlap, clear");
+        this.selectedItem.clearDialogBox();
+        this.selectedItem = undefined;
       }
+    } else {
+      console.log("no item found: ", this.selectedItem);
     }
   }
 }
