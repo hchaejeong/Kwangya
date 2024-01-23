@@ -108,6 +108,7 @@ export default class Network {
       if (key === this.mysessionId) return;
       console.log(player, "has been added at", key);
 
+      //각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
       player.onChange((changes) => {
         console.log(111);
         changes.forEach((change) => {
