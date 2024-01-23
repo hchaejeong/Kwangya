@@ -118,7 +118,7 @@ export default class Game extends Phaser.Scene {
       );
 
       this.myPlayer = this.add.myPlayer(
-        700,
+        705,
         500,
         "adam",
         this.network.mysessionId
@@ -313,6 +313,7 @@ export default class Game extends Phaser.Scene {
       }
     }
 
+    console.log("item:", selectionItem);
     playerSelector.selectedItem = selectionItem;
     selectionItem.onOverlapDialog();
   }
@@ -347,6 +348,7 @@ export default class Game extends Phaser.Scene {
     this.myPlayer.videoConnected = true;
   }
 
+  //player가 변경될때 target position을 업데이트해주는것
   private handlePlayerUpdated(
     field: string,
     value: number | string | boolean,

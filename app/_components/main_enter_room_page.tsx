@@ -112,10 +112,8 @@ export default function MainEnterRoomPage() {
   //const [roomCreated, setRoomCreated] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [loginPage, setLoginPage] = useState(false);
-  const [joinedRoom, setJoinedRoom] = useState(false);
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
 
   if (loginPage && !loggedIn) {
@@ -178,7 +176,7 @@ export default function MainEnterRoomPage() {
                     </Tooltip>
                   </Title>
                 </TitleWrapper>
-                <CustomRoomTable />
+                <CustomRoomTable setLoginPage={setLoginPage} />
                 <Button
                   variant="contained"
                   color="secondary"
