@@ -21,6 +21,7 @@ import Bootstrap from "../_scenes/Bootstrap";
 import { useAppSelector } from "../hooks";
 import LoginDialog from "./login_component";
 import { Chat } from "./chat";
+import { VideoConnectModal } from "./video-connect-modal";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -115,13 +116,18 @@ export default function MainEnterRoomPage() {
   const [joinedRoom, setJoinedRoom] = useState(false);
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
+  const videoConnected = useAppSelector((state) => state.user.videoConnected);
 
   if (loginPage && !loggedIn) {
     return <LoginDialog />;
   } else if (loggedIn) {
-    return <Chat />;
+    return (
+      <>
+        <Chat />
+        {!videoConnected && <VideoConnectModal />}
+      </>
+    );
   } else {
     return (
       <>
