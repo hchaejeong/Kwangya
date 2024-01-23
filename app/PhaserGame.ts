@@ -4,6 +4,7 @@ import * as Phaser from "phaser";
 import Background from "./_scenes/Background";
 import Bootstrap from "./_scenes/Bootstrap";
 import Game from "./_scenes/Game";
+import styled from "styled-components";
 
 /*
 type: 게임 렌더링 엔진을 설정합니다. Phaser.AUTO는 자동으로 WebGL 또는 Canvas를 선택합니다.

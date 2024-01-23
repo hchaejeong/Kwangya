@@ -4,11 +4,13 @@ import "./PhaserGame";
 
 import Image from "next/image";
 import MainEnterRoomPage from "./_components/main_enter_room_page";
+import { ComputerScreenShare } from "./_components/computer-screen-share";
 import { Provider } from "react-redux";
 import store from "./_stores";
 import styled from "styled-components";
 import { useEffect, useRef } from "react";
 import phaserGame from "./PhaserGame";
+import { Chat } from "./_components/chat";
 
 const Container = styled.div`
   canvas {
