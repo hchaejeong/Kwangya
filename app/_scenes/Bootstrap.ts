@@ -1,7 +1,7 @@
 "use client";
 
 import * as Phaser from "phaser";
-import { BackgroundMode } from "@/types/BackgroundMode";
+import { BackgroundMode } from "../../types/BackgroundMode";
 import Network from "../_services/network";
 import store from "../_stores";
 import { setRoomJoined } from "../_stores/RoomStore";

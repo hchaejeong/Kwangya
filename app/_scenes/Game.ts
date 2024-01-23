@@ -94,10 +94,36 @@ export default class Game extends Phaser.Scene {
     //1. make tilemap을 사용해서 기본 맵을 깔아주고 2. 이 맵에서 사용될 실제 타일 이미지들을 불러오기 3. 레이어를 만들어서 씌워주기
     this.map = this.make.tilemap({ key: "tilemap" });
     //(tilemap으로 쓸 이미지 파일 이름, 우리가 정해주는 이 타일 부분의 이름 key)
-    const tileset = this.map.addTilesetImage("FloorAndGround", "Tiles");
-    if (tileset) {
-      const ground = this.map.createLayer("Ground", tileset);
+    const FloorAndGround = this.map.addTilesetImage(
+      "FloorAndGround",
+      "tiles_wall"
+    );
+    if (FloorAndGround) {
+      const ground = this.map.createLayer("Ground", FloorAndGround);
       ground?.setCollisionByProperty({ collides: true });
+
+      Phaser.GameObjects.GameObjectFactory.register(
+        "myPlayer",
+        function (
+          this: Phaser.GameObjects.GameObjectFactory,
+          x: number,
+          y: number,
+          texture: string,
+          id: string,
+          frame?: string | number
+        ) {
+          // Create and return an instance of MyPlayer
+          return new MyPlayer(this.scene, x, y, texture, id, frame);
+        }
+      );
+
+      this.myPlayer = this.add.myPlayer(
+        700,
+        500,
+        "adam",
+        this.network.mysessionId
+      );
+      this.playerSelector = new PlayerMovement(this, 0, 0, 16, 16);
 
       if (ground) {
         this.physics.add.collider(
@@ -106,46 +132,9 @@ export default class Game extends Phaser.Scene {
         );
       }
       //안 움직이는 built in object group을 다 추가 (벽, 오피스 아이템들, 등)
-      this.addStaticGroupElements(
-        "Wall",
-        "tiles_wall",
-        "FloorAndGround",
-        false
-      );
-      this.addStaticGroupElements(
-        "Objects",
-        "office",
-        "Modern_Office_Black_Shadow",
-        false
-      );
-      this.addStaticGroupElements(
-        "ObjectsOnCollide",
-        "office",
-        "Modern_Office_Black_Shadow",
-        true
-      );
-      this.addStaticGroupElements(
-        "GenericObjects",
-        "generic",
-        "Generic",
-        false
-      );
-      this.addStaticGroupElements(
-        "GenericObjectsOnCollide",
-        "generic",
-        "Generic",
-        true
-      );
-      this.addStaticGroupElements("Basement", "basement", "Basement", true);
+    } else {
+      throw new Error("no tileset found");
     }
-
-    this.myPlayer = this.add.myPlayer(
-      700,
-      500,
-      "adam",
-      this.network.mysessionId
-    );
-    this.playerSelector = new PlayerMovement(this, 0, 0, 16, 16);
 
     this.cameras.main.zoom = 1.5;
     this.cameras.main.startFollow(this.myPlayer, true);
@@ -154,15 +143,17 @@ export default class Game extends Phaser.Scene {
     const chairs = this.physics.add.staticGroup({ classType: Chair });
     //Tiled에서 의자들은 Chair이라는 레이어로 따로 관리해줌
     const chairLayer = this.map.getObjectLayer("Chair");
-    chairLayer?.objects.forEach((chair) => {
+    chairLayer?.objects.forEach((chairObj) => {
       const item = this.addObjectElements(
         chairs,
-        chair,
+        chairObj,
         "chairs",
         "chair"
       ) as Chair;
       //Tiled에서 custom properties의 첫 value로 direction을 적어놨다 (left, right, up, down)
-      item.itemDirection = chair.properties[0].value;
+      if (chairObj.properties) {
+        item.itemDirection = chairObj.properties[0].value;
+      }
     });
 
     const computers = this.physics.add.staticGroup({ classType: Computer });
@@ -194,6 +185,28 @@ export default class Game extends Phaser.Scene {
       item.id = id;
       this.whiteboardMap.set(id, item);
     });
+
+    this.addStaticGroupElements("Wall", "tiles_wall", "FloorAndGround", false);
+    this.addStaticGroupElements(
+      "Objects",
+      "office",
+      "Modern_Office_Black_Shadow",
+      false
+    );
+    this.addStaticGroupElements(
+      "ObjectsOnCollide",
+      "office",
+      "Modern_Office_Black_Shadow",
+      true
+    );
+    this.addStaticGroupElements("GenericObjects", "generic", "Generic", false);
+    this.addStaticGroupElements(
+      "GenericObjectsOnCollide",
+      "generic",
+      "Generic",
+      true
+    );
+    this.addStaticGroupElements("Basement", "basement", "Basement", true);
 
     //const coffeeMachines = this.physics.add.staticGroup({ classType:})
     //this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], vendingMachines)
@@ -248,6 +261,8 @@ export default class Game extends Phaser.Scene {
         .get(x_position, y_position, key, object.gid! - firstGid)
         .setDepth(y_position);
       return itemObj;
+    } else {
+      throw new Error("tileset is not found for " + tilesetName);
     }
   }
 

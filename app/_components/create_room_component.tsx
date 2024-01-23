@@ -13,6 +13,7 @@ import phaserGame from "../PhaserGame";
 import { IRoomData } from "@/types/Room";
 import Bootstrap from "../_scenes/Bootstrap";
 import { useRoomStore } from "../_stores/use-room";
+//import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../hooks";
 
 const CreateRoomFormWrapper = styled.form`
@@ -22,7 +23,11 @@ const CreateRoomFormWrapper = styled.form`
   gap: 20px;
 `;
 
-export const CreateRoomForm = () => {
+interface CreateRoomProps {
+  setLoginPage: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const CreateRoomForm = ({ setLoginPage }: CreateRoomProps) => {
   const [values, setValues] = useState<IRoomData>({
     name: "",
     description: "",
@@ -40,6 +45,8 @@ export const CreateRoomForm = () => {
       setValues({ ...values, [prop]: event.target.value });
     };
 
+  //const history = useHistory();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isValidName = values.name !== "";
@@ -56,6 +63,8 @@ export const CreateRoomForm = () => {
         .createCustom(values)
         .then(() => bootstrap.launchGame())
         .catch((error) => console.error(error));
+
+      setLoginPage(true);
     }
   };
 

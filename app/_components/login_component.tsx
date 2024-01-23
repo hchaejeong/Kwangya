@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -9,22 +9,21 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
+import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import Navigation from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import Adam from "../images/login/Adam_login.png";
-import Ash from "../images/login/Ash_login.png";
-import Lucy from "../images/login/Lucy_login.png";
-import Nancy from "../images/login/Nancy_login.png";
+import Adam from "@/public/images/login/Adam_login.png";
+import Ash from "@/public/images/login/Ash_login.png";
+import Lucy from "@/public/images/login/Lucy_login.png";
+import Nancy from "@/public/images/login/Nancy_login.png";
 import { getAvatarString, getColorByString } from "./util";
 
 import phaserGame from "../PhaserGame";
 import Game1 from "../_scenes/Game";
-import { useUserStore } from "../_stores/use-user";
-import { useRoomStore } from "../_stores/use-room";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { setLoggedIn } from "../_stores/UserStore";
 
 const Wrapper = styled.form`
   position: fixed;
@@ -143,10 +142,15 @@ for (let i = avatars.length - 1; i > 0; i--) {
   [avatars[i], avatars[j]] = [avatars[j], avatars[i]];
 }
 
+interface LoginDialogProps {
+  setJoinedRoom: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export default function LoginDialog() {
   const [name, setName] = useState<string>("");
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
   const roomJoined = useAppSelector((state) => state.room.roomJoined);
@@ -165,8 +169,7 @@ export default function LoginDialog() {
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
 
-      const { setLoggedIn } = useUserStore((state) => state);
-      setLoggedIn(true);
+      dispatch(setLoggedIn(true));
     }
   };
 
