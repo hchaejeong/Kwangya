@@ -56,7 +56,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .text(0, 0, "")
       .setColor("#000000")
       .setFontFamily("Arial")
-      .setFontSize(11);
+      .setFontSize(12)
+      .setOrigin(0.5);
     this.playerContainer.add(this.playerName);
 
     //플레이어 container가 다른 부분들과 collision이 있을때 필요한 코드
