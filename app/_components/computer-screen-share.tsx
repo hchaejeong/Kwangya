@@ -1,3 +1,5 @@
+"use client";
+
 import { X } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { closeComputerDialog } from "../_stores/ComputerStore";
