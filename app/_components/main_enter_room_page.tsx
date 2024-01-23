@@ -106,6 +106,7 @@ const ProgressBar = styled(LinearProgress)`
 export default function MainEnterRoomPage() {
   const [showCustomRoom, setShowCustomRoom] = useState(false);
   const [showCreateRoomForm, setShowCreateRoomForm] = useState(false);
+  const [roomCreated, setRoomCreated] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
 
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);

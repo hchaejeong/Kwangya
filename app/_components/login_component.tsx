@@ -24,7 +24,8 @@ import phaserGame from "../PhaserGame";
 import Game1 from "../_scenes/Game";
 import { useUserStore } from "../_stores/use-user";
 import { useRoomStore } from "../_stores/use-room";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { setLoggedIn } from "../_stores/UserStore";
 
 const Wrapper = styled.form`
   position: fixed;
@@ -147,6 +148,7 @@ export default function LoginDialog() {
   const [name, setName] = useState<string>("");
   const [avatarIndex, setAvatarIndex] = useState<number>(0);
   const [nameFieldEmpty, setNameFieldEmpty] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
 
   const videoConnected = useAppSelector((state) => state.user.videoConnected);
   const roomJoined = useAppSelector((state) => state.room.roomJoined);
@@ -165,8 +167,7 @@ export default function LoginDialog() {
       game.myPlayer.setPlayerTexture(avatars[avatarIndex].name);
       game.network.readyToConnect();
 
-      const { setLoggedIn } = useUserStore((state) => state);
-      setLoggedIn(true);
+      dispatch(setLoggedIn(true));
     }
   };
 

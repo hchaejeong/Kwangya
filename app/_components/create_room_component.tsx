@@ -13,6 +13,7 @@ import phaserGame from "../PhaserGame";
 import { IRoomData } from "@/types/Room";
 import Bootstrap from "../_scenes/Bootstrap";
 import { useRoomStore } from "../_stores/use-room";
+//import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../hooks";
 
 const CreateRoomFormWrapper = styled.form`
@@ -39,6 +40,8 @@ export const CreateRoomForm = () => {
     (prop: keyof IRoomData) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValues({ ...values, [prop]: event.target.value });
     };
+
+  //const history = useHistory();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

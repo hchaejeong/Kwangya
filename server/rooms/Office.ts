@@ -42,10 +42,10 @@ export class Office extends Room<N1Building> {
     this.setState(new N1Building());
 
     //기본 방 세팅: 컴퓨터 20대, 화이트보드 2대
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 5; i++) {
       this.state.computers.set(String(i), new Computer());
     }
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       this.state.whiteboards.set(String(i), new WhiteBoard());
     }
 
