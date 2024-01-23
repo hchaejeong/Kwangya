@@ -107,19 +107,10 @@ const ProgressBar = styled(LinearProgress)`
 export default function MainEnterRoomPage() {
   const [showCustomRoom, setShowCustomRoom] = useState(false);
   const [showCreateRoomForm, setShowCreateRoomForm] = useState(false);
-  const [roomCreated, setRoomCreated] = useState(false);
+  //const [roomCreated, setRoomCreated] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(false);
 
   const lobbyJoined = useAppSelector((state) => state.room.lobbyJoined);
-
-  const handleConnect = () => {
-    if (lobbyJoined) {
-      const bootstrap = phaserGame.scene.keys.bootstrap as Bootstrap;
-      bootstrap.launchGame();
-    } else {
-      setShowSnackbar(true);
-    }
-  };
 
   return (
     <>
@@ -190,11 +181,6 @@ export default function MainEnterRoomPage() {
               <Title>Welcome to Madcamp</Title>
               <Content>
                 <img src={logo.src} alt="logo" />
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleConnect}
-                ></Button>
                 <Button
                   variant="outlined"
                   color="secondary"

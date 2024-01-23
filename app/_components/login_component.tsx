@@ -10,7 +10,6 @@ import AlertTitle from "@mui/material/AlertTitle";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import Navigation from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 
