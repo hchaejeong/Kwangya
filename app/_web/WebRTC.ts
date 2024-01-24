@@ -19,14 +19,15 @@ export default class WebRTC {
     string,
     { call: MediaConnection; video: HTMLVideoElement }
   >();
-  private myStream?: MediaStream;
   private network: Network;
-  //   private videoRef = useRef<HTMLVideoElement>(null);
-  //   private myVideo = document.createElement("video");
-  //   private buttonRef = useRef<ElementRef<"button">>(null);
-  private buttonGrid = document.querySelector(".button-grid");
-  private videoGrid = document.querySelector(".video-grid");
   private myVideo = document.createElement("video");
+  // videoRef = useRef<HTMLVideoElement>(null);
+  // buttonRef = useRef<ElementRef<"button">>(null);
+  private buttonGrid = document.getElementById("button-grid");
+  // private videoGrid = document.getElementById("video-grid");
+  private videoGrid = document.createElement("video");
+  // private myVideo = document.createElement("video");
+  private myStream?: MediaStream;
 
   constructor(userId: string, network: Network) {
     const sanitizedId = this.replaceInvalidId(userId);

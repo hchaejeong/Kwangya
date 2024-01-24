@@ -177,17 +177,10 @@ export class Office extends Room<N1Building> {
   }
 
   //client가 password를 사용하는 룸에 들어오려고 할때 validate해주는 역할
-  async onAuth(
-    client: Client<
-      this["clients"] extends ClientArray<infer U, any> ? U : never,
-      this["clients"] extends ClientArray<infer _, infer U> ? U : never
-    >,
-    options: any,
-    request?: IncomingMessage | undefined
-  ) {
+  async onAuth(client: Client, options: { password: string | null }) {
     //password이 존재할때 encrypt한거랑 지금 client가 룸 조인할때 입력한 password랑 같은건지 비교해서 맞을때 true를 반환하고 아니면 error띄워주기
     if (this.password) {
-      const validate = await bcrypt.compare(options.password, this.password);
+      const validate = await bcrypt.compare(options.password!, this.password);
       if (!validate) {
         throw new ServerError(403, "Incorrect password");
       } else {
@@ -199,16 +192,7 @@ export class Office extends Room<N1Building> {
 
   //requestJoin이랑 onAuth이 성공한 후에 실행
   //client이 성공적으로 룸에 들어올때
-  onJoin(
-    client: Client<
-      this["clients"] extends ClientArray<infer U, any> ? U : never,
-      this["clients"] extends ClientArray<infer _, infer U> ? U : never
-    >,
-    options?: any,
-    auth?:
-      | (this["clients"] extends ClientArray<infer _, infer U> ? U : never)
-      | undefined
-  ): void | Promise<any> {
+  onJoin(client: Client, options?: any) {
     //들어온 방의 sessionId를 사용해 이 방에서 새로운 플레이어 생성
     this.state.players.set(client.sessionId, new Player());
     //이건 이게 성공적으로 되었다는 용도로 메세지 보내기
@@ -220,13 +204,7 @@ export class Office extends Room<N1Building> {
   }
 
   //client이 룸에서 나갈때 - client가 직접 나가서 disconnect된거면 consented parameter가 true
-  onLeave(
-    client: Client<
-      this["clients"] extends ClientArray<infer U, any> ? U : never,
-      this["clients"] extends ClientArray<infer _, infer U> ? U : never
-    >,
-    consented?: boolean | undefined
-  ): void | Promise<any> {
+  onLeave(client: Client, consented: boolean) {
     //플레이어의 sessionId를 지워줘서 룸에 들어가있지 않다는 걸 표시
     this.state.players.delete(client.sessionId);
     //이 플레이어가 연결되어있는 부분들도 다 초기화
@@ -243,7 +221,7 @@ export class Office extends Room<N1Building> {
   }
 
   //방에 더 이상 플레이어들이 존재하지 않는 경우 방 자체를 없애기
-  onDispose(): void | Promise<any> {
+  onDispose() {
     //화이트보드와 연결된것들도 다 해제하기
     this.dispatcher.stop();
   }
