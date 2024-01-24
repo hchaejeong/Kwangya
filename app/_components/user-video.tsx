@@ -2,33 +2,35 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import phaserGame from "../PhaserGame";
 import Game from "../_scenes/Game";
+import Bootstrap from "../_scenes/Bootstrap";
+import styled from "styled-components";
+
+const Video = styled.div`
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 160px);
+    grid-gap: 5px;
+    grid-auto-rows: 160px;
+    position: absolute;
+    top: 35px;
+    right: 10px;
+    max-height: calc(100% - 100px);
+    overflow-y: auto;
+  }
+
+  .video-grid video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    border: 1px groove rgb(229, 251, 255);
+  }
+`;
 
 export const UserVideo = () => {
-  const game = phaserGame.scene.keys.game as Game;
-  const videoRef = useRef<HTMLDivElement>(null);
-
-  //   useEffect(() => {
-  //     if(videoRef.current) {
-
-  //         videoRef.current.
-  //     }
-  //   },[])
-
   return (
     <>
-      <div className="grid grid-cols-auto-fill gap-1 grid-rows-[160px] absolute top-8 right-2 max-h-[calc(100%-100px)] overflow-y-auto">
-        <video
-          //   ref={videoRef}
-          id="video-grid"
-          className="w-full h-full object-cover rounded-sm border-sky-100 border border-1"
-        />
-      </div>
-      <div className="w-[160px] flex justify-evenly top-1 right-2 absolute">
-        <Button className="h-6" size="sm"></Button>
-        <Button className="h-6" size="sm">
-          Video Off
-        </Button>
-      </div>
+      <Video className="video-grid" />
     </>
   );
 };

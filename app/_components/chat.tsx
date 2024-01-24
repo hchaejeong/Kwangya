@@ -78,55 +78,60 @@ export const Chat = () => {
   return (
     <div>
       {showChat ? (
-        <div className="fixed left-6 bottom-20 w-[200px] h-[280px] lg:w-[440px] bg-background rounded-lg opacity-70 rounded-b-none">
-          <div className="flex flex-1 flex-col-reverse overflow-y-auto p-3 h-full">
-            {chatMessages.map(({ messageType, chatMessage }, index) => (
-              <Hint
-                label={format(chatMessage.messageSentTime, "yyyy/MM/dd HH:mm")}
-                side="right"
-                asChild
-                key={index}
-              >
-                <div className="hover:bg-[#3a3a3a] w-full">
-                  {messageType === MessageType.NORMAL_MESSAGE ? (
-                    <p
-                      style={{ color: getColorByString(chatMessage.user) }}
-                      className="m-1"
-                    >
-                      {chatMessage.user}:{" "}
-                      <span className="text-white size-4">
-                        {chatMessage.content}
-                      </span>
-                    </p>
-                  ) : (
-                    <p className="text-gray-500">
-                      {chatMessage.user} {chatMessage.content}
-                    </p>
+        <>
+          <div className="absolute left-6 bottom-20 w-[200px] h-[280px] lg:w-[440px] bg-background rounded-lg opacity-70 rounded-b-none">
+            <div className="flex flex-1 flex-col-reverse overflow-y-auto p-3 h-full">
+              {chatMessages.map(({ messageType, chatMessage }, index) => (
+                <Hint
+                  label={format(
+                    chatMessage.messageSentTime,
+                    "yyyy/MM/dd HH:mm"
                   )}
-                </div>
-              </Hint>
-            ))}
+                  side="right"
+                  asChild
+                  key={index}
+                >
+                  <div className="hover:bg-[#3a3a3a] w-full">
+                    {messageType === MessageType.NORMAL_MESSAGE ? (
+                      <p
+                        style={{ color: getColorByString(chatMessage.user) }}
+                        className="m-1"
+                      >
+                        {chatMessage.user}:{" "}
+                        <span className="text-white size-4">
+                          {chatMessage.content}
+                        </span>
+                      </p>
+                    ) : (
+                      <p className="text-gray-500">
+                        {chatMessage.user} {chatMessage.content}
+                      </p>
+                    )}
+                  </div>
+                </Hint>
+              ))}
+            </div>
+            <form onSubmit={onSubmit}>
+              <Input
+                onChange={(e) => onChangeValue(e.target.value)}
+                value={inputValue}
+                placeholder="Send a message"
+                className="border-white/10 w-full rounded-t-none"
+                ref={inputRef}
+                autoFocus={focused}
+                onFocus={() => {
+                  if (!focused) {
+                    dispatch(setFocused(true));
+                  }
+                }}
+                onBlur={() => {
+                  dispatch(setFocused(false));
+                }}
+                onKeyDown={onPressESC}
+              />
+            </form>
           </div>
-          <form onSubmit={onSubmit}>
-            <Input
-              onChange={(e) => onChangeValue(e.target.value)}
-              value={inputValue}
-              placeholder="Send a message"
-              className="border-white/10 w-full rounded-t-none"
-              ref={inputRef}
-              autoFocus={focused}
-              onFocus={() => {
-                if (!focused) {
-                  dispatch(setFocused(true));
-                }
-              }}
-              onBlur={() => {
-                dispatch(setFocused(false));
-              }}
-              onKeyDown={onPressESC}
-            />
-          </form>
-        </div>
+        </>
       ) : (
         <button
           className="flex fixed left-10 bottom-10 w-14 h-14 bg-slate-900 p-2 rounded-full justify-center items-center"
