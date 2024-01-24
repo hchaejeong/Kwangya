@@ -8,7 +8,6 @@ import store from "./_stores";
 import { useRef, useEffect } from "react";
 import phaserGame from "./PhaserGame";
 import styled from "styled-components";
-import { UserVideo } from "./_components/user-video";
 
 const Container = styled.div`
   canvas {

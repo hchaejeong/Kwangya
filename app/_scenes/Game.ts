@@ -235,6 +235,8 @@ export default class Game extends Phaser.Scene {
       this
     );
 
+    //scrum 회의할때 화상통화
+
     this.network.onPlayerJoined(this.handlePlayerJoined, this);
     //this.network.onGetExistingPlayers(this.handleExistingPlayers, this);
     this.network.onPlayerLeft(this.handlePlayerLeft, this);
@@ -247,7 +249,12 @@ export default class Game extends Phaser.Scene {
   }
 
   private handlePlayersOverlap(myPlayer: any, otherPlayer: any) {
+    console.log("overlap");
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
+  }
+
+  private handlePlayersScrum(myPlayer: any, scrumPlayers: any) {
+    scrumPlayers.makeCall(myPlayer, this.network?.webRTC);
   }
 
   private addObjectElements(
