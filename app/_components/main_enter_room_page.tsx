@@ -24,6 +24,7 @@ import { Chat } from "./chat";
 import { VideoConnectModal } from "./video-connect-modal";
 import { ComputerScreenShare } from "./computer-screen-share";
 import { UserVideo } from "./user-video";
+import WhiteboardDialog from "./whiteboard";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -122,8 +123,14 @@ export default function MainEnterRoomPage() {
   const computerScreenOpen = useAppSelector(
     (state) => state.computer.computerDialogOpen
   );
+  const whiteboardOpen = useAppSelector(
+    (state) => state.whiteboard.whiteboardDialogOpen
+  );
 
   if (loggedIn) {
+    if (whiteboardOpen) {
+      return <WhiteboardDialog />;
+    }
     if (computerScreenOpen) {
       return <ComputerScreenShare />;
     } else {

@@ -390,7 +390,8 @@ export default class Game extends Phaser.Scene {
     if (itemType === Items.COMPUTER) {
       this.computerMap.get(itemId)?.addCurrentUser(playerId);
     } else if (itemType === Items.WHITEBOARD) {
-      this.whiteboardMap.get(itemId)?.addCurrentUser(playerId);
+      const whiteboard = this.whiteboardMap.get(itemId);
+      whiteboard?.addCurrentUser(playerId);
     }
   }
 
@@ -402,7 +403,9 @@ export default class Game extends Phaser.Scene {
     if (itemType === Items.COMPUTER) {
       this.computerMap.get(itemId)?.removeCurrentUser(playerId);
     } else if (itemType === Items.WHITEBOARD) {
-      this.whiteboardMap.get(itemId)?.removeCurrentUser(playerId);
+      const whiteboard = this.whiteboardMap.get(itemId);
+      console.log("whiteboard: ", whiteboard);
+      whiteboard?.removeCurrentUser(playerId);
     }
   }
 

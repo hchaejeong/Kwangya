@@ -101,6 +101,16 @@ export class Office extends Room<N1Building> {
     );
 
     this.onMessage(
+      Message.DISCONNECT_FROM_WHITEBOARD,
+      (client, message: { whiteboardId: string }) => {
+        this.dispatcher.dispatch(new WhiteboardRemoveUser(), {
+          client,
+          whiteboardId: message.whiteboardId,
+        });
+      }
+    );
+
+    this.onMessage(
       Message.DISCONNECT_FROM_COMPUTER,
       (client, message: { whiteboardId: string }) => {
         this.dispatcher.dispatch(new WhiteboardRemoveUser(), {

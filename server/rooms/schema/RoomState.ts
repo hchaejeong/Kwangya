@@ -50,7 +50,7 @@ export const existingRoomIds = new Set<string>();
 
 //generating a new unique room id for the whiteboard since each the content in each whiteboard must be preserved
 function getUniqueRoomId() {
-  const roomId = uuidv4().substr(0, 12);
+  let roomId = uuidv4().substr(0, 12);
   if (!existingRoomIds.has(roomId)) {
     existingRoomIds.add(roomId);
     return roomId;

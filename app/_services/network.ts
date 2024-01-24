@@ -175,23 +175,15 @@ export default class Network {
       whiteboard: IWhiteBoard,
       key: string
     ) => {
-      whiteboard.connectedUsers.onAdd = (item, index) => {
-        //실제로 whiteboard의 url을 띄워줘야하기 때문에 setWhiteboardUrls 메서드를 사용
-        store.dispatch(
-          setWhiteboardUrls({ whiteboardId: key, roomId: whiteboard.roomId })
-        );
+      store.dispatch(
+        setWhiteboardUrls({ whiteboardId: key, roomId: whiteboard.roomId })
+      );
 
-        whiteboard.connectedUsers.onAdd = (item, index) => {
-          phaserEvents.emit(Event.ITEM_USER_ADDED, item, key, Items.WHITEBOARD);
-        };
-        whiteboard.connectedUsers.onRemove = (item, index) => {
-          phaserEvents.emit(
-            Event.ITEM_USER_REMOVED,
-            item,
-            key,
-            Items.WHITEBOARD
-          );
-        };
+      whiteboard.connectedUsers.onAdd = (item, index) => {
+        phaserEvents.emit(Event.ITEM_USER_ADDED, item, key, Items.WHITEBOARD);
+      };
+      whiteboard.connectedUsers.onRemove = (item, index) => {
+        phaserEvents.emit(Event.ITEM_USER_REMOVED, item, key, Items.WHITEBOARD);
       };
     };
 
