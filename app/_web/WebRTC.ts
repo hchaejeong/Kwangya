@@ -23,9 +23,9 @@ export default class WebRTC {
   private myVideo = document.createElement("video");
   // videoRef = useRef<HTMLVideoElement>(null);
   // buttonRef = useRef<ElementRef<"button">>(null);
-  private buttonGrid = document.getElementById("button-grid");
-  // private videoGrid = document.getElementById("video-grid");
-  videoGrid = document.createElement("video");
+  private buttonGrid = document.querySelector(".button-grid");
+  private videoGrid = document.querySelector(".video-grid");
+  // videoGrid = document.createElement("video");
   // private myVideo = document.createElement("video");
   private myStream?: MediaStream;
 
