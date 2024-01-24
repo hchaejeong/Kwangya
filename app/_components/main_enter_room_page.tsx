@@ -23,6 +23,7 @@ import LoginDialog from "./login_component";
 import { Chat } from "./chat";
 import { VideoConnectModal } from "./video-connect-modal";
 import { ComputerScreenShare } from "./computer-screen-share";
+import { UserVideo } from "./user-video";
 
 const Backdrop = styled.div`
   position: absolute;
@@ -130,6 +131,7 @@ export default function MainEnterRoomPage() {
         <>
           <Chat />
           {!videoConnected && <VideoConnectModal />}
+          <UserVideo />
         </>
       );
     }

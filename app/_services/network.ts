@@ -112,6 +112,7 @@ export default class Network {
       console.log(player, "has been added at", key);
       console.log("sessionId: ", this.mysessionId);
 
+      //각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
       player.onChange = (changes) => {
         console.log("current changes: ", changes);
         changes.forEach((change) => {
@@ -129,67 +130,21 @@ export default class Network {
         });
       };
     };
-    //lastKnownPlayerPositions[key] = { x: player.x, y: player.y };
+
     // 각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
     // player.onChange(() => {
     //   // Access player properties directly from the player object
-    //   const { name, x, y, anim, readyToConnect, videoConnected } = player;
+    //   const { name } = player;
 
-    //   if (
-    //     lastKnownPlayerPositions[key].x !== x ||
-    //     lastKnownPlayerPositions[key].y !== y
-    //   ) {
-    //     phaserEvents.emit(Event.PLAYER_UPDATED, "name", name, key);
-    //     phaserEvents.emit(Event.PLAYER_UPDATED, "x", x, key);
-    //     phaserEvents.emit(Event.PLAYER_UPDATED, "y", y, key);
-    //     phaserEvents.emit(
-    //       Event.PLAYER_UPDATED,
-    //       "readyToConnect",
-    //       readyToConnect,
-    //       key
-    //     );
-    //     phaserEvents.emit(
-    //       Event.PLAYER_UPDATED,
-    //       "videoConnected",
-    //       videoConnected,
-    //       key
-    //     );
-    //     phaserEvents.emit(Event.PLAYER_UPDATED, "anim", anim, key);
-    //     console.log("name: ", name, "position: ", { x, y }, "anim", anim);
-    //     lastKnownPlayerPositions[key] = { x, y };
+    //   phaserEvents.emit(Event.PLAYER_UPDATED, "name", name, key);
 
-    //     if (name !== "") {
-    //       phaserEvents.emit(Event.PLAYER_JOINED, player, key);
-    //       store.dispatch(setPlayerNameMap({ id: key, name: name }));
-    //       store.dispatch(pushPlayerJoinedMessage(name));
-    //     }
+    //   // when a new player finished setting up player name
+    //   if (name !== "") {
+    //     console.log("name: ", name);
+    //     phaserEvents.emit(Event.PLAYER_JOINED, player, key);
+    //     store.dispatch(setPlayerNameMap({ id: key, name: name }));
+    //     store.dispatch(pushPlayerJoinedMessage(name));
     //   }
-
-    // phaserEvents.emit(Event.PLAYER_UPDATED, "name", name, key);
-
-    // // when a new player finished setting up player name
-    // if (name !== "") {
-    //   console.log("name: ", name);
-    //   phaserEvents.emit(Event.PLAYER_JOINED, player, key);
-    //   store.dispatch(setPlayerNameMap({ id: key, name: name }));
-    //   store.dispatch(pushPlayerJoinedMessage(name));
-    // }
-    // });
-
-    //각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
-    // player.onChange((changes) => {
-    //   console.log(111);
-    //   changes.forEach((change) => {
-    //     const { field, value } = change;
-    //     phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
-
-    //     // when a new player finished setting up player name
-    //     if (field === "name" && value !== "") {
-    //       phaserEvents.emit(Event.PLAYER_JOINED, player, key);
-    //       store.dispatch(setPlayerNameMap({ id: key, name: value }));
-    //       store.dispatch(pushPlayerJoinedMessage(value));
-    //     }
-    //   });
     // });
     // });
 
@@ -259,11 +214,6 @@ export default class Network {
       const shareScreenManager = store.getState().computer.shareScreenManager;
       shareScreenManager?.onUserLeft(clientId);
     });
-
-    this.room.onMessage(
-      Message.SEND_EXISTING_PLAYERS,
-      (players: MapSchema<Player, string>) => {}
-    );
   }
 
   //채팅방에 유저가 더 들어올때 사용하는 이런 event listener랑 function 실행

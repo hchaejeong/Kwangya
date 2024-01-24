@@ -20,6 +20,7 @@ const config = {
     extend: {
       gridTemplateColumns: {
         "auto-fit": "repeat(auto-fit, minmax(40%, 1fr))",
+        "auto-fill": "repeat(auto-fill, 160px)",
       },
       colors: {
         border: "hsl(var(--border))",

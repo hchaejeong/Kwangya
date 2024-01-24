@@ -45,7 +45,7 @@ export class Office extends Room<N1Building> {
     this.setState(new N1Building());
 
     //기본 방 세팅: 컴퓨터 20대, 화이트보드 2대
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 20; i++) {
       this.state.computers.set(String(i), new Computer());
     }
     for (let i = 0; i < 3; i++) {
@@ -184,7 +184,7 @@ export class Office extends Room<N1Building> {
   ) {
     //password이 존재할때 encrypt한거랑 지금 client가 룸 조인할때 입력한 password랑 같은건지 비교해서 맞을때 true를 반환하고 아니면 error띄워주기
     if (this.password) {
-      const validate = await bcrypt.compare(options.password, this.password);
+      const validate = await bcrypt.compare(options.password!, this.password);
       if (!validate) {
         throw new ServerError(403, "Incorrect password");
       } else {
@@ -196,12 +196,7 @@ export class Office extends Room<N1Building> {
 
   //requestJoin이랑 onAuth이 성공한 후에 실행
   //client이 성공적으로 룸에 들어올때
-  onJoin(client: Client, options: any) {
-    //들어온 방의 sessionId를 사용해 이 방에서 새로운 플레이어 생성
-    // client.send(Message.SEND_EXISTING_PLAYERS, {
-    //   players: this.state.players,
-    // });
-
+  onJoin(client: Client) {
     this.state.players.set(client.sessionId, new Player());
 
     //이건 이게 성공적으로 되었다는 용도로 메세지 보내기
