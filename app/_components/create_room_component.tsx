@@ -72,29 +72,66 @@ export const CreateRoomForm = ({ setLoginPage }: CreateRoomProps) => {
       <TextField
         label="Name"
         variant="outlined"
-        color="secondary"
         autoFocus
         error={nameFieldEmpty}
         helperText={nameFieldEmpty && "Name is required"}
         onChange={handleChange("name")}
+        InputProps={{ style: { color: "white" } }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "lightblue",
+            },
+            "&:hover fieldset": {
+              borderColor: "lightblue",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "lightblue",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "white",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "white",
+          },
+        }}
       />
 
       <TextField
         label="Description"
         variant="outlined"
-        color="secondary"
         error={descriptionFieldEmpty}
         helperText={descriptionFieldEmpty && "Description is required"}
         multiline
         rows={4}
         onChange={handleChange("description")}
+        InputProps={{ style: { color: "white" } }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "lightblue",
+            },
+            "&:hover fieldset": {
+              borderColor: "lightblue",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "lightblue",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "white",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "white",
+          },
+        }}
       />
 
       <TextField
         type={showPassword ? "text" : "password"}
         label="Password (optional)"
         onChange={handleChange("password")}
-        color="secondary"
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -107,9 +144,34 @@ export const CreateRoomForm = ({ setLoginPage }: CreateRoomProps) => {
               </IconButton>
             </InputAdornment>
           ),
+          style: { color: "white" },
+        }}
+        variant="outlined"
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "lightblue",
+            },
+            "&:hover fieldset": {
+              borderColor: "lightblue",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "lightblue",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "white",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "white",
+          },
         }}
       />
-      <Button variant="contained" color="secondary" type="submit">
+      <Button
+        variant="contained"
+        style={{ color: "white", backgroundColor: "#528c9e" }}
+        type="submit"
+      >
         Create
       </Button>
     </CreateRoomFormWrapper>

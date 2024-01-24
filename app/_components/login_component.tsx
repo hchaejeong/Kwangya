@@ -193,6 +193,7 @@ export default function LoginDialog() {
             navigation
             spaceBetween={0}
             slidesPerView={1}
+            style={{ background: "lightblue" }}
             onSlideChange={(swiper) => {
               setAvatarIndex(swiper.activeIndex);
             }}
@@ -210,23 +211,46 @@ export default function LoginDialog() {
             fullWidth
             label="Name"
             variant="outlined"
-            color="secondary"
             error={nameFieldEmpty}
             helperText={nameFieldEmpty && "Name is required"}
             onInput={(e) => {
               setName((e.target as HTMLInputElement).value);
             }}
+            InputProps={{ style: { color: "white" } }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "lightblue",
+                },
+                "&:hover fieldset": {
+                  borderColor: "lightblue",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "lightblue",
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "white",
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "white",
+              },
+            }}
           />
           {!videoConnected && (
             <Warning>
-              <Alert variant="outlined" severity="warning">
-                <AlertTitle>Warning</AlertTitle>
+              <Alert
+                variant="outlined"
+                severity="warning"
+                sx={{ color: "#bd6d4b" }}
+              >
+                <AlertTitle sx={{ color: "#db7a51" }}>Warning</AlertTitle>
                 No webcam/mic connected -{" "}
                 <strong>connect one for best experience!</strong>
               </Alert>
               <Button
                 variant="outlined"
-                color="secondary"
+                style={{ color: "white", borderColor: "lightblue" }}
                 onClick={() => {
                   game.network.webRTC?.getUserMedia();
                 }}
@@ -246,7 +270,7 @@ export default function LoginDialog() {
       <Bottom>
         <Button
           variant="contained"
-          color="secondary"
+          style={{ color: "white", backgroundColor: "#528c9e" }}
           size="large"
           type="submit"
         >

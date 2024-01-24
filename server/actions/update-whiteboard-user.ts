@@ -7,7 +7,7 @@ type Payload = {
   whiteboardId: string;
 };
 
-export class WhiteboardAddUser extends Command<Room<IN1Building>, Payload> {
+export class WhiteboardAddUser extends Command<IN1Building, Payload> {
   execute(data: Payload) {
     const { client, whiteboardId } = data;
     const whiteboard = this.room.state.whiteboards.get(whiteboardId);
@@ -18,7 +18,7 @@ export class WhiteboardAddUser extends Command<Room<IN1Building>, Payload> {
   }
 }
 
-export class WhiteboardRemoveUser extends Command<Room<IN1Building>, Payload> {
+export class WhiteboardRemoveUser extends Command<IN1Building, Payload> {
   execute(data: Payload) {
     const { client, whiteboardId } = data;
     const whiteboard = this.state.whiteboards.get(whiteboardId);

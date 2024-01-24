@@ -533,6 +533,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -551,6 +556,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"left"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -569,6 +579,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"right"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -587,6 +602,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -605,6 +625,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"left"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -623,6 +648,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -641,6 +671,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -659,6 +694,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -677,6 +717,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -695,6 +740,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -713,6 +763,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -731,6 +786,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -749,6 +809,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -767,6 +832,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -785,6 +855,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"right"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -803,6 +878,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"right"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -821,6 +901,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"left"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -839,6 +924,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -857,6 +947,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -875,6 +970,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -893,6 +993,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"right"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -911,6 +1016,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"right"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -929,6 +1039,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -947,6 +1062,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"left"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -965,6 +1085,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"left"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -983,6 +1108,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -1001,6 +1131,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"right"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -1019,6 +1154,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"left"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -1037,6 +1177,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -1055,6 +1200,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":true
                         }],
                  "rotation":0,
                  "type":"",
@@ -1073,6 +1223,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"left"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1091,6 +1246,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1109,6 +1269,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"left"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1127,6 +1292,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1145,6 +1315,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1163,6 +1338,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1181,6 +1361,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1199,6 +1384,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1217,6 +1407,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1235,6 +1430,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1253,6 +1453,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1271,6 +1476,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1289,6 +1499,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1307,6 +1522,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1325,6 +1545,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"up"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1343,6 +1568,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1361,6 +1591,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1379,6 +1614,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1397,6 +1637,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1415,6 +1660,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1434,6 +1684,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"down"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -1506,6 +1761,11 @@
                          "name":"direction",
                          "type":"string",
                          "value":"right"
+                        }, 
+                        {
+                         "name":"scrum",
+                         "type":"bool",
+                         "value":false
                         }],
                  "rotation":0,
                  "type":"",
@@ -5610,54 +5870,6 @@
                  "y":490.345355026297
                 }, 
                 {
-                 "gid":4171,
-                 "height":32,
-                 "id":1742,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":703.906645522276,
-                 "y":293.984680290835
-                }, 
-                {
-                 "gid":4172,
-                 "height":32,
-                 "id":1743,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":735.623230902726,
-                 "y":293.984680290835
-                }, 
-                {
-                 "gid":4187,
-                 "height":32,
-                 "id":1744,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":703.906645522276,
-                 "y":325.000478740911
-                }, 
-                {
-                 "gid":4188,
-                 "height":32,
-                 "id":1745,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":32,
-                 "x":735.623230902726,
-                 "y":325.000478740911
-                }, 
-                {
                  "gid":4550,
                  "height":32,
                  "id":1416,
@@ -6099,6 +6311,54 @@
                  "width":32,
                  "x":964.313054703889,
                  "y":813.563337098596
+                }, 
+                {
+                 "gid":4171,
+                 "height":32,
+                 "id":1742,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":703.906645522276,
+                 "y":293.984680290835
+                }, 
+                {
+                 "gid":4172,
+                 "height":32,
+                 "id":1743,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":735.623230902726,
+                 "y":293.984680290835
+                }, 
+                {
+                 "gid":4187,
+                 "height":32,
+                 "id":1744,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":703.906645522276,
+                 "y":325.000478740911
+                }, 
+                {
+                 "gid":4188,
+                 "height":32,
+                 "id":1745,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":32,
+                 "x":735.623230902726,
+                 "y":325.000478740911
                 }],
          "opacity":1,
          "type":"objectgroup",

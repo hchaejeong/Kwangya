@@ -27,11 +27,11 @@
                 4,
                 8
             ],
-            "scale": 3.1176,
-            "selectedLayer": 7,
+            "scale": 0.6756,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 1269.4059532974084,
-                "y": 668.142160636387
+                "x": 401.8650088809947,
+                "y": 408.5257548845471
             }
         },
         "map/map.json#Basement": {
@@ -72,7 +72,7 @@
             "selectedLayer": 0,
             "viewCenter": {
                 "x": 612.6653654304922,
-                "y": 451.0952071134244
+                "y": 589.8937323790933
             }
         },
         "map/map.tmx#Basement": {
@@ -112,6 +112,7 @@
         "map/map.tmx"
     ],
     "project": "untitled.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
         "map/map.json",
         "map/map.tmx"

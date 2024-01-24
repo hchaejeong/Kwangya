@@ -9,10 +9,7 @@ type Payload = {
   anim: string;
 };
 
-export default class PlayerEnterCommand extends Command<
-  Room<IN1Building>,
-  Payload
-> {
+export default class PlayerEnterCommand extends Command<IN1Building, Payload> {
   execute(data: Payload) {
     const { client, x, y, anim } = data;
 

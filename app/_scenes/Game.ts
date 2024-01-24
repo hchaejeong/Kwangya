@@ -16,6 +16,8 @@ import { PlayerBehavior } from "@/types/PlayerBehavior";
 import { Items } from "@/types/Items";
 import { setShowChat, setFocused } from "../_stores/ChatStore";
 import store from "../_stores";
+import { MapSchema } from "@colyseus/schema";
+import Player from "../_actions/player";
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -113,7 +115,10 @@ export default class Game extends Phaser.Scene {
           frame?: string | number
         ) {
           // Create and return an instance of MyPlayer
-          return new MyPlayer(this.scene, x, y, texture, id, frame);
+          const sprite = new MyPlayer(this.scene, x, y, texture, id, frame);
+          this.displayList.add(sprite);
+          this.updateList.add(sprite);
+          return sprite;
         }
       );
 
@@ -231,6 +236,7 @@ export default class Game extends Phaser.Scene {
     );
 
     this.network.onPlayerJoined(this.handlePlayerJoined, this);
+    //this.network.onGetExistingPlayers(this.handleExistingPlayers, this);
     this.network.onPlayerLeft(this.handlePlayerLeft, this);
     this.network.onMyPlayerReady(this.handleMyPlayerReady, this);
     this.network.onMyPlayerVideoConnected(this.handleMyPlayerConnected, this);
@@ -319,16 +325,33 @@ export default class Game extends Phaser.Scene {
   }
 
   private handlePlayerJoined(newPlayer: IPlayer, id: string) {
+    const texture = newPlayer.anim.split("_")[0];
+
     const otherPlayer = this.add.otherPlayer(
       newPlayer.x,
       newPlayer.y,
-      "adam",
+      texture,
       id,
       newPlayer.name
     );
     this.otherPlayers.add(otherPlayer);
     this.otherPlayerMap.set(id, otherPlayer);
+    console.log("other players: ", this.otherPlayers);
   }
+
+  //   private handleExistingPlayers(players: MapSchema<Player, string>) {
+  //     players.forEach((existingPlayer, id) => {
+  //       const player = this.add.otherPlayer(
+  //         existingPlayer.x,
+  //         existingPlayer.y,
+  //         existingPlayer.anims.currentAnim?.key,
+  //         id,
+  //         existingPlayer.name
+  //       );
+  //       this.otherPlayers.add(player);
+  //       this.otherPlayerMap.set(id, player);
+  //     });
+  //   }
 
   //현재 플레이어가 연결된 다른 플레이어 리스트에서 제거
   private handlePlayerLeft(id: string) {
@@ -356,6 +379,7 @@ export default class Game extends Phaser.Scene {
   ) {
     const otherPlayer = this.otherPlayerMap.get(id);
     otherPlayer?.updatePlayer(field, value);
+    console.log(otherPlayer?.name + "is being updated");
   }
 
   private handleItemUserAdded(

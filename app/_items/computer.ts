@@ -6,6 +6,7 @@ import { useComputer } from "../_stores/use-computer";
 import Network from "../_services/network";
 import store from "../_stores";
 import { openComputerDialog } from "../_stores/ComputerStore";
+import { useAppSelector } from "../hooks";
 
 export default class Computer extends Item {
   id?: string;
@@ -60,7 +61,10 @@ export default class Computer extends Item {
 
     this.currentUsers.delete(userId);
 
-    const { computerId, shareScreenManager } = useComputer((state) => state);
+    const computerId = useAppSelector((state) => state.computer.computerId);
+    const shareScreenManager = useAppSelector(
+      (state) => state.computer.shareScreenManager
+    );
 
     if (computerId === this.id) {
       shareScreenManager?.onUserLeft(userId);
