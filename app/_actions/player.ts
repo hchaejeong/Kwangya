@@ -69,7 +69,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .setOffset(-8, this.height * 0.8 + 6);
   }
 
-  async updatePlayerDialog(message: string) {
+  updatePlayerDialog(message: string) {
     this.resetPlayerDialog();
 
     const dialogMessage = this.scene.add
@@ -112,7 +112,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }, 6000);
   }
 
-  async resetPlayerDialog() {
+  resetPlayerDialog() {
     clearTimeout(this.timeout);
     this.playerDialogBubble.removeAll(true);
   }

@@ -198,7 +198,12 @@ export class Office extends Room<N1Building> {
   //client이 성공적으로 룸에 들어올때
   onJoin(client: Client, options: any) {
     //들어온 방의 sessionId를 사용해 이 방에서 새로운 플레이어 생성
+    // client.send(Message.SEND_EXISTING_PLAYERS, {
+    //   players: this.state.players,
+    // });
+
     this.state.players.set(client.sessionId, new Player());
+
     //이건 이게 성공적으로 되었다는 용도로 메세지 보내기
     client.send(Message.SEND_ROOM_DATA, {
       id: this.roomId,

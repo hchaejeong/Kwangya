@@ -9,7 +9,7 @@ type Payload = {
 };
 
 export default class PlayerUpdateNameCommand extends Command<
-  Room<IN1Building>,
+  IN1Building,
   Payload
 > {
   execute(data: Payload) {

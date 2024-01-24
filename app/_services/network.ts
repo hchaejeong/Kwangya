@@ -32,6 +32,8 @@ import {
 } from "../_stores/ChatStore";
 import { setWhiteboardUrls } from "../_stores/WhiteboardStore";
 import { Client, Room } from "colyseus.js";
+import { MapSchema } from "@colyseus/schema";
+import Player from "../_actions/player";
 
 //network을 분리해야 플레이어가 다른 유저들의 움직임과 들어가고 나가는 것에 영향을 받지 않고 자유롭게 join하고 나가기위함이다
 export default class Network {
@@ -111,6 +113,7 @@ export default class Network {
       console.log("sessionId: ", this.mysessionId);
 
       player.onChange = (changes) => {
+        console.log("current changes: ", changes);
         changes.forEach((change) => {
           console.log("change:", change);
           const { field, value } = change;
@@ -118,6 +121,7 @@ export default class Network {
 
           // when a new player finished setting up player name
           if (field === "name" && value !== "") {
+            console.log("join ", value);
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
             store.dispatch(setPlayerNameMap({ id: key, name: value }));
             store.dispatch(pushPlayerJoinedMessage(value));
@@ -240,9 +244,12 @@ export default class Network {
       store.dispatch(pushChatMessage(chat));
     };
 
-    this.room.onMessage(Message.SEND_ROOM_DATA, (content) => {
-      store.dispatch(setJoinedRoomData(content));
-    });
+    this.room.onMessage(
+      Message.SEND_ROOM_DATA,
+      (content: { id: string; name: string; description: string }) => {
+        store.dispatch(setJoinedRoomData(content));
+      }
+    );
 
     this.room.onMessage(Message.DISCONNECT_STREAM, (clientId: string) => {
       this.webRTC?.deleteOnCalledVideoStream(clientId);
@@ -252,6 +259,11 @@ export default class Network {
       const shareScreenManager = store.getState().computer.shareScreenManager;
       shareScreenManager?.onUserLeft(clientId);
     });
+
+    this.room.onMessage(
+      Message.SEND_EXISTING_PLAYERS,
+      (players: MapSchema<Player, string>) => {}
+    );
   }
 
   //채팅방에 유저가 더 들어올때 사용하는 이런 event listener랑 function 실행
