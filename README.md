@@ -1,5 +1,5 @@
 # 🌐 Kwangya 🧑‍💻
-> ### Contributor: Chaejeong Hyun, 
+> ### Contributor: Chaejeong Hyun, JoongHoon Lee
 > 🕰️ 2023.01.11 ~ 2024.01.17 <br />
 *2023 Winter Madcamp Project* <br/>
 
