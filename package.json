@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "cd server && ts-node-dev --project tsconfig.server.json --respawn --transpile-only index.ts",
+    "start": "next start",
+    "server": "cd server && ts-node-dev --project tsconfig.server.json --respawn --transpile-only index.ts",
     "lint": "next lint"
   },
   "dependencies": {
