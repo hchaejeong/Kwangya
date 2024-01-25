@@ -7,7 +7,7 @@ type Payload = {
   computerId: string;
 };
 
-export class ComputerAddUser extends Command<Room<IN1Building>, Payload> {
+export class ComputerAddUser extends Command<IN1Building, Payload> {
   execute(data: Payload) {
     const { client, computerId } = data;
     const computer = this.room.state.computers.get(computerId);
@@ -19,7 +19,7 @@ export class ComputerAddUser extends Command<Room<IN1Building>, Payload> {
   }
 }
 
-export class ComputerRemoveUser extends Command<Room<IN1Building>, Payload> {
+export class ComputerRemoveUser extends Command<IN1Building, Payload> {
   execute(data: Payload) {
     const { client, computerId } = data;
     const computer = this.state.computers.get(computerId);

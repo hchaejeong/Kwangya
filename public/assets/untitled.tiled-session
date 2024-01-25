@@ -9,38 +9,47 @@
         "character",
         "background"
     ],
+    "file.lastUsedOpenFilter": "모든 파일 (*)",
     "fileStates": {
+        "": {
+            "scaleInEditor": 1
+        },
         "map/map.json": {
             "expandedObjectLayers": [
                 7,
+                14,
+                3,
                 6,
+                9,
                 5,
                 13,
+                10,
                 4,
                 8
             ],
-            "scale": 1.3277,
-            "selectedLayer": 7,
+            "scale": 2.5576,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 360.3976801988401,
-                "y": 715.5230850342697
+                "x": 1289.6856427901157,
+                "y": 851.3841101032218
             }
         },
         "map/map.json#Basement": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 0.8796
         },
         "map/map.json#FloorAndGround": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 0.8067
         },
         "map/map.json#Generic": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 1.2017
         },
         "map/map.json#Modern_Office_Black_Shadow": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 0.9316,
+            "scaleInEditor": 1
         },
         "map/map.json#chair": {
             "dynamicWrapping": true,
@@ -48,7 +57,8 @@
         },
         "map/map.json#computer": {
             "dynamicWrapping": false,
-            "scaleInDock": 1
+            "scaleInDock": 0.9062,
+            "scaleInEditor": 1
         },
         "map/map.json#vendingmachine": {
             "dynamicWrapping": false,
@@ -61,8 +71,8 @@
             "scale": 0.4611,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 612.6653654304922,
-                "y": 455.43266102797645
+                "x": 484.71047495120354,
+                "y": 562.7846454131425
             }
         },
         "map/map.tmx#Basement": {
@@ -93,14 +103,18 @@
             "scaleInDock": 1
         }
     },
+    "last.exportedFilePath": "/Users/hyeonchaejeong/Documents/Work/Madcamp-Fourth-Week/public/assets/map",
     "last.imagePath": "/Users/hyeonchaejeong/Documents/Work/Madcamp-Fourth-Week/public/assets/tileset",
+    "map.lastUsedExportFilter": "Tiled 맵 파일 (*.tmx *.xml)",
+    "map.lastUsedFormat": "json",
     "openFiles": [
         "map/map.json",
         "map/map.tmx"
     ],
     "project": "untitled.tiled-project",
+    "property.type": "bool",
     "recentFiles": [
-        "map/map.tmx",
-        "map/map.json"
+        "map/map.json",
+        "map/map.tmx"
     ]
 }

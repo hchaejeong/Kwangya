@@ -14,6 +14,7 @@ import Computer from "../_items/computer";
 import Whiteboard from "../_items/whiteboard";
 import store from "../_stores";
 import { pushPlayerJoinedMessage } from "../_stores/ChatStore";
+import Game from "../_scenes/Game";
 
 //실제 플레이어의 움직임이랑 이름, dialog와 같은 기능들을 써놓은곳
 export default class MyPlayer extends Player {
@@ -69,7 +70,7 @@ export default class MyPlayer extends Player {
       return;
     }
 
-    const item = playerMovement.item;
+    const item = playerMovement.selectedItem;
     if (Phaser.Input.Keyboard.JustDown(keyR)) {
       if (item?.itemType === Items.COMPUTER) {
         const computer = item as Computer;
@@ -81,6 +82,7 @@ export default class MyPlayer extends Player {
         //TODO: 커피머신에서 url띄워서 커피 주문하기 창
       }
     }
+
     if (this.playerBehavior === PlayerBehavior.STANDING) {
       //의자 찾으면 앉도록 playerBehavior 바꿔주기
       if (
@@ -122,7 +124,7 @@ export default class MyPlayer extends Player {
               `${this.playerTexture}_sit_${chairItem.itemDirection}`,
               true
             );
-            playerMovement.item = undefined;
+            playerMovement.selectedItem = undefined;
             if (chairItem.itemDirection === "up") {
               //player 위치를 새로 설정해줘야함 (의자에 앉아있는걸로)
               playerMovement.setPosition(this.x, this.y - this.height);
@@ -131,12 +133,7 @@ export default class MyPlayer extends Player {
             }
 
             if (this.anims.currentAnim) {
-              network.updatePlayer(
-                this.x,
-                this.y,
-                this.name,
-                this.anims.currentAnim.key
-              );
+              network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
             }
           },
           loop: false,
@@ -207,12 +204,7 @@ export default class MyPlayer extends Player {
           this.playerBehavior = PlayerBehavior.STANDING;
         }
         if (this.anims.currentAnim) {
-          network.updatePlayer(
-            this.x,
-            this.y,
-            this.name,
-            this.anims.currentAnim.key
-          );
+          network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
         } else {
           console.log("no animation available");
         }
@@ -223,6 +215,9 @@ export default class MyPlayer extends Player {
   //player animation이랑 새로운 location을 server로 보내주는 역할
   updatePlayerAnimation(vx: number, vy: number, network: Network) {
     if (this.anims.currentAnim) {
+      if (vx !== 0 || vy !== 0) {
+        network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
+      }
       if (vx > 0) {
         this.play(`${this.playerTexture}_run_right`, true);
       } else if (vx < 0) {
@@ -239,12 +234,7 @@ export default class MyPlayer extends Player {
         if (this.anims.currentAnim.key !== newAnim) {
           this.play(parts.join("_"), true);
           // send new location and anim to server
-          network.updatePlayer(
-            this.x,
-            this.y,
-            this.name,
-            this.anims.currentAnim.key
-          );
+          network.updatePlayer(this.x, this.y, this.anims.currentAnim.key);
         }
       }
     } else {

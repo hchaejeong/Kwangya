@@ -12,7 +12,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import phaserGame from "../PhaserGame";
 import { IRoomData } from "@/types/Room";
 import Bootstrap from "../_scenes/Bootstrap";
-import { useRoomStore } from "../_stores/use-room";
+//import { useHistory } from "react-router-dom";
 import { useAppSelector } from "../hooks";
 
 const CreateRoomFormWrapper = styled.form`
@@ -22,7 +22,11 @@ const CreateRoomFormWrapper = styled.form`
   gap: 20px;
 `;
 
-export const CreateRoomForm = () => {
+interface CreateRoomProps {
+  setLoginPage: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const CreateRoomForm = ({ setLoginPage }: CreateRoomProps) => {
   const [values, setValues] = useState<IRoomData>({
     name: "",
     description: "",
@@ -40,6 +44,8 @@ export const CreateRoomForm = () => {
       setValues({ ...values, [prop]: event.target.value });
     };
 
+  //const history = useHistory();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const isValidName = values.name !== "";
@@ -56,6 +62,8 @@ export const CreateRoomForm = () => {
         .createCustom(values)
         .then(() => bootstrap.launchGame())
         .catch((error) => console.error(error));
+
+      setLoginPage(true);
     }
   };
 
@@ -64,29 +72,66 @@ export const CreateRoomForm = () => {
       <TextField
         label="Name"
         variant="outlined"
-        color="secondary"
         autoFocus
         error={nameFieldEmpty}
         helperText={nameFieldEmpty && "Name is required"}
         onChange={handleChange("name")}
+        InputProps={{ style: { color: "white" } }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "lightblue",
+            },
+            "&:hover fieldset": {
+              borderColor: "lightblue",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "lightblue",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "white",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "white",
+          },
+        }}
       />
 
       <TextField
         label="Description"
         variant="outlined"
-        color="secondary"
         error={descriptionFieldEmpty}
         helperText={descriptionFieldEmpty && "Description is required"}
         multiline
         rows={4}
         onChange={handleChange("description")}
+        InputProps={{ style: { color: "white" } }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "lightblue",
+            },
+            "&:hover fieldset": {
+              borderColor: "lightblue",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "lightblue",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "white",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "white",
+          },
+        }}
       />
 
       <TextField
         type={showPassword ? "text" : "password"}
         label="Password (optional)"
         onChange={handleChange("password")}
-        color="secondary"
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -99,9 +144,34 @@ export const CreateRoomForm = () => {
               </IconButton>
             </InputAdornment>
           ),
+          style: { color: "white" },
+        }}
+        variant="outlined"
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "lightblue",
+            },
+            "&:hover fieldset": {
+              borderColor: "lightblue",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "lightblue",
+            },
+          },
+          "& .MuiInputLabel-root": {
+            color: "white",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "white",
+          },
         }}
       />
-      <Button variant="contained" color="secondary" type="submit">
+      <Button
+        variant="contained"
+        style={{ color: "white", backgroundColor: "#528c9e" }}
+        type="submit"
+      >
         Create
       </Button>
     </CreateRoomFormWrapper>

@@ -57,15 +57,13 @@ export default class Computer extends Item {
 
   removeCurrentUser(userId: string) {
     if (!this.currentUsers || !this.currentUsers.has(userId)) return;
-
     this.currentUsers.delete(userId);
 
-    const { computerId, shareScreenManager } = useComputer((state) => state);
+    const computer = store.getState().computer;
 
-    if (computerId === this.id) {
-      shareScreenManager?.onUserLeft(userId);
+    if (computer.computerId === this.id) {
+      computer.shareScreenManager?.onUserLeft(userId);
     }
-
     this.updateStatus();
   }
 

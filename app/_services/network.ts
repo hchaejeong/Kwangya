@@ -1,7 +1,6 @@
 "use client";
 
 import { Message } from "@/types/Messages";
-import { Client, Room } from "colyseus.js";
 import { Event, phaserEvents } from "../_events/event-center";
 import { IRoomData } from "@/types/Room";
 import {
@@ -32,6 +31,9 @@ import {
   pushPlayerLeftMessage,
 } from "../_stores/ChatStore";
 import { setWhiteboardUrls } from "../_stores/WhiteboardStore";
+import { Client, Room } from "colyseus.js";
+import { MapSchema } from "@colyseus/schema";
+import Player from "../_actions/player";
 
 //network을 분리해야 플레이어가 다른 유저들의 움직임과 들어가고 나가는 것에 영향을 받지 않고 자유롭게 join하고 나가기위함이다
 export default class Network {
@@ -50,7 +52,7 @@ export default class Network {
       store.dispatch(setLobbyJoined(true));
     });
 
-    //phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this)
+    phaserEvents.on(Event.MY_PLAYER_NAME_CHANGE, this.updatePlayerName, this);
     phaserEvents.on(Event.MY_PLAYER_TEXTURE_CHANGE, this.updatePlayer, this);
     phaserEvents.on(
       Event.PLAYER_DISCONNECTED,
@@ -104,30 +106,50 @@ export default class Network {
     this.webRTC = new WebRTC(this.mysessionId, this);
 
     //새로운 플레이어들 생성
-    this.room.state.players.onAdd((player: IPlayer, key: string) => {
+    this.room.state.players.onAdd = (player: IPlayer, key: string) => {
+      console.log("key", key, "sessionId", this.mysessionId);
       if (key === this.mysessionId) return;
       console.log(player, "has been added at", key);
+      console.log("sessionId: ", this.mysessionId);
 
       //각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
-      player.onChange = () => {
-        return () => {
-          // Access player properties directly from the player object
-          const { name } = player;
-
-          phaserEvents.emit(Event.PLAYER_UPDATED, "name", name, key);
+      player.onChange = (changes) => {
+        console.log("current changes: ", changes);
+        changes.forEach((change) => {
+          console.log("change:", change);
+          const { field, value } = change;
+          phaserEvents.emit(Event.PLAYER_UPDATED, field, value, key);
 
           // when a new player finished setting up player name
-          if (name !== "") {
+          if (field === "name" && value !== "") {
+            console.log("join ", value);
             phaserEvents.emit(Event.PLAYER_JOINED, player, key);
-            store.dispatch(setPlayerNameMap({ id: key, name: name }));
-            store.dispatch(pushPlayerJoinedMessage(name));
+            store.dispatch(setPlayerNameMap({ id: key, name: value }));
+            store.dispatch(pushPlayerJoinedMessage(value));
           }
-        };
+        });
       };
-    });
+    };
+
+    // 각 플레이어들의 변화를 changes으로 감지하고 각 field, value를 사용해서 플레이어 이름이랑 다른 attribute들을 업데이트 시켜준다
+    // player.onChange(() => {
+    //   // Access player properties directly from the player object
+    //   const { name } = player;
+
+    //   phaserEvents.emit(Event.PLAYER_UPDATED, "name", name, key);
+
+    //   // when a new player finished setting up player name
+    //   if (name !== "") {
+    //     console.log("name: ", name);
+    //     phaserEvents.emit(Event.PLAYER_JOINED, player, key);
+    //     store.dispatch(setPlayerNameMap({ id: key, name: name }));
+    //     store.dispatch(pushPlayerJoinedMessage(name));
+    //   }
+    // });
+    // });
 
     //player가 방에서 나갈때 일어나는 일을 미리 설정
-    this.room.state.players.onRemove((player: IPlayer, key: string) => {
+    this.room.state.players.onRemove = (player: IPlayer, key: string) => {
       //연결된 웹캠 지우고 플레이어 이름을 맵에서 제거해야함
       phaserEvents.emit(Event.PLAYER_LEFT, key);
 
@@ -136,54 +158,45 @@ export default class Network {
 
       this.webRTC?.deleteVideoStream(key);
       this.webRTC?.deleteOnCalledVideoStream(key);
-    });
+    };
 
     //아이템들 (computer, chair, whiteboard, chatting)도 다 onAdd를 사용해서 생성해줘야함
     //item에 연결된 유저가 추가되면 ITEM_USER_ADDED, 유저 연결 끊기면 ITEM_USER_REMOVED을 사용해서 다 업데이트 해줘야함
-    this.room.state.computers.onAdd((computer: IComputer, key: string) => {
-      computer.connectedUsers.onAdd((item, index) => {
+    this.room.state.computers.onAdd = (computer: IComputer, key: string) => {
+      computer.connectedUsers.onAdd = (item, index) => {
         phaserEvents.emit(Event.ITEM_USER_ADDED, item, key, Items.COMPUTER);
-      });
-      computer.connectedUsers.onRemove((item, index) => {
+      };
+      computer.connectedUsers.onRemove = (item, index) => {
         phaserEvents.emit(Event.ITEM_USER_REMOVED, item, key, Items.COMPUTER);
-      });
-    });
+      };
+    };
 
-    this.room.state.whiteboards.onAdd(
-      (whiteboard: IWhiteBoard, key: string) => {
-        whiteboard.connectedUsers.onAdd((item, index) => {
-          //실제로 whiteboard의 url을 띄워줘야하기 때문에 setWhiteboardUrls 메서드를 사용
-          store.dispatch(
-            setWhiteboardUrls({ whiteboardId: key, roomId: whiteboard.roomId })
-          );
+    this.room.state.whiteboards.onAdd = (
+      whiteboard: IWhiteBoard,
+      key: string
+    ) => {
+      store.dispatch(
+        setWhiteboardUrls({ whiteboardId: key, roomId: whiteboard.roomId })
+      );
 
-          whiteboard.connectedUsers.onAdd((item, index) => {
-            phaserEvents.emit(
-              Event.ITEM_USER_ADDED,
-              item,
-              key,
-              Items.WHITEBOARD
-            );
-          });
-          whiteboard.connectedUsers.onRemove((item, index) => {
-            phaserEvents.emit(
-              Event.ITEM_USER_REMOVED,
-              item,
-              key,
-              Items.WHITEBOARD
-            );
-          });
-        });
+      whiteboard.connectedUsers.onAdd = (item, index) => {
+        phaserEvents.emit(Event.ITEM_USER_ADDED, item, key, Items.WHITEBOARD);
+      };
+      whiteboard.connectedUsers.onRemove = (item, index) => {
+        phaserEvents.emit(Event.ITEM_USER_REMOVED, item, key, Items.WHITEBOARD);
+      };
+    };
+
+    this.room.state.chatMessages.onAdd = (chat: IChatting, key: number) => {
+      store.dispatch(pushChatMessage(chat));
+    };
+
+    this.room.onMessage(
+      Message.SEND_ROOM_DATA,
+      (content: { id: string; name: string; description: string }) => {
+        store.dispatch(setJoinedRoomData(content));
       }
     );
-
-    this.room.state.chatMessages.onAdd((chat: IChatting, key: number) => {
-      store.dispatch(pushChatMessage(chat));
-    });
-
-    this.room.onMessage(Message.SEND_ROOM_DATA, (content) => {
-      store.dispatch(setJoinedRoomData(content));
-    });
 
     this.room.onMessage(Message.DISCONNECT_STREAM, (clientId: string) => {
       this.webRTC?.deleteOnCalledVideoStream(clientId);
@@ -251,18 +264,16 @@ export default class Network {
   }
 
   // 현재 플레이어의 position이랑 이름, 애니메이션 상태 업데이트 꾸준히 해주기
-  updatePlayer(
-    currentX: number,
-    currentY: number,
-    currentName: string,
-    currentAnim: string
-  ) {
+  updatePlayer(currentX: number, currentY: number, currentAnim: string) {
     this.room?.send(Message.UPDATE_PLAYER, {
       x: currentX,
       y: currentY,
-      name: currentName,
       anim: currentAnim,
     });
+  }
+
+  updatePlayerName(currentName: string) {
+    this.room?.send(Message.UPDATE_PLAYER_NAME, { name: currentName });
   }
 
   // 서버랑 연결 될때

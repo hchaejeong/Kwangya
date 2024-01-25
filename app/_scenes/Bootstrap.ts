@@ -1,7 +1,7 @@
 "use client";
 
 import * as Phaser from "phaser";
-import { BackgroundMode } from "@/types/BackgroundMode";
+import { BackgroundMode } from "../../types/BackgroundMode";
 import Network from "../_services/network";
 import store from "../_stores";
 import { setRoomJoined } from "../_stores/RoomStore";
@@ -18,52 +18,38 @@ export default class Bootstrap extends Phaser.Scene {
   preload() {
     this.load.atlas(
       "cloud_day",
-      "@/public/assets/background/cloud_day.png",
-      "@/public/assets/background/cloud_day.json"
+      "/assets/background/cloud_day.png",
+      "/assets/background/cloud_day.json"
     );
-    this.load.image(
-      "backdrop_day",
-      "@/public/assets/background/backdrop_day.png"
-    );
+    this.load.image("backdrop_day", "/assets/background/backdrop_day.png");
     this.load.atlas(
       "cloud_night",
-      "@/public/assets/background/cloud_night.png",
-      "@/public/assets/background/cloud_night.json"
+      "/assets/background/cloud_night.png",
+      "/assets/background/cloud_night.json"
     );
-    this.load.image(
-      "backdrop_night",
-      "@/public/assets/background/backdrop_night.png"
-    );
-    this.load.image("sun_moon", "@/public/assets/background/sun_moon.png");
+    this.load.image("backdrop_night", "/assets/background/backdrop_night.png");
+    this.load.image("sun_moon", "/assets/background/sun_moon.png");
 
-    this.load.tilemapTiledJSON("tilemap", "@/public/assets/map/map.json");
-    this.load.spritesheet(
-      "tiles_wall",
-      "@/public/assets/map/FloorAndGround.png",
-      {
-        frameWidth: 32,
-        frameHeight: 32,
-      }
-    );
-    this.load.spritesheet("chairs", "@/public/assets/items/chair.png", {
+    this.load.tilemapTiledJSON("tilemap", "/assets/map/map.json");
+    this.load.spritesheet("tiles_wall", "/assets/map/FloorAndGround.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet("chairs", "/assets/items/chair.png", {
       frameWidth: 32,
       frameHeight: 64,
     });
-    this.load.spritesheet("computers", "@/public/assets/items/computer.png", {
+    this.load.spritesheet("computers", "/assets/items/computer.png", {
       frameWidth: 96,
       frameHeight: 64,
     });
-    this.load.spritesheet(
-      "whiteboards",
-      "@/public/assets/items/whiteboard.png",
-      {
-        frameWidth: 64,
-        frameHeight: 64,
-      }
-    );
+    this.load.spritesheet("whiteboards", "/assets/items/whiteboard.png", {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
     this.load.spritesheet(
       "vendingmachines",
-      "@/public/assets/items/vendingmachine.png",
+      "/assets/items/vendingmachine.png",
       {
         frameWidth: 48,
         frameHeight: 72,
@@ -71,33 +57,33 @@ export default class Bootstrap extends Phaser.Scene {
     );
     this.load.spritesheet(
       "office",
-      "@/public/assets/tileset/Modern_Office_Black_Shadow.png",
+      "/assets/tileset/Modern_Office_Black_Shadow.png",
       {
         frameWidth: 32,
         frameHeight: 32,
       }
     );
-    this.load.spritesheet("basement", "@/public/assets/tileset/Basement.png", {
+    this.load.spritesheet("basement", "/assets/tileset/Basement.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.spritesheet("generic", "@/public/assets/tileset/Generic.png", {
+    this.load.spritesheet("generic", "/assets/tileset/Generic.png", {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.spritesheet("adam", "@/public/assets/character/adam.png", {
+    this.load.spritesheet("adam", "/assets/character/adam.png", {
       frameWidth: 32,
       frameHeight: 48,
     });
-    this.load.spritesheet("ash", "@/public/assets/character/ash.png", {
+    this.load.spritesheet("ash", "/assets/character/ash.png", {
       frameWidth: 32,
       frameHeight: 48,
     });
-    this.load.spritesheet("lucy", "@/public/assets/character/lucy.png", {
+    this.load.spritesheet("lucy", "/assets/character/lucy.png", {
       frameWidth: 32,
       frameHeight: 48,
     });
-    this.load.spritesheet("nancy", "@/public/assets/character/nancy.png", {
+    this.load.spritesheet("nancy", "/assets/character/nancy.png", {
       frameWidth: 32,
       frameHeight: 48,
     });

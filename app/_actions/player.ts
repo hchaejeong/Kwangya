@@ -45,7 +45,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     //플레이어 오브젝트를 띄워줄때 container로 플레이어 크기만큼 지정해눠서 띄워줘야함
     //player가 맵에서 항상 가장 위에 있는 layer에서 보여야하니까 큰 숫자로 depth설정해주자
     this.playerContainer = this.scene.add
-      .container(this.x, this.y)
+      .container(this.x, this.y - 30)
       .setDepth(5000);
     this.playerDialogBubble = this.scene.add.container(0, 0).setDepth(5000);
     //플레이어 오브젝트랑 말풍선이 같이 움직이면서 띄워져야하니까 playerContainer에 dialogbubble container 추가시키기
@@ -56,7 +56,8 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .text(0, 0, "")
       .setColor("#000000")
       .setFontFamily("Arial")
-      .setFontSize(11);
+      .setFontSize(12)
+      .setOrigin(0.5);
     this.playerContainer.add(this.playerName);
 
     //플레이어 container가 다른 부분들과 collision이 있을때 필요한 코드
@@ -68,7 +69,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       .setOffset(-8, this.height * 0.8 + 6);
   }
 
-  async updatePlayerDialog(message: string) {
+  updatePlayerDialog(message: string) {
     this.resetPlayerDialog();
 
     const dialogMessage = this.scene.add
@@ -111,7 +112,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }, 6000);
   }
 
-  async resetPlayerDialog() {
+  resetPlayerDialog() {
     clearTimeout(this.timeout);
     this.playerDialogBubble.removeAll(true);
   }

@@ -14,6 +14,10 @@ import Whiteboard from "../_items/whiteboard";
 import Item from "../_items/item";
 import { PlayerBehavior } from "@/types/PlayerBehavior";
 import { Items } from "@/types/Items";
+import { setShowChat, setFocused } from "../_stores/ChatStore";
+import store from "../_stores";
+import { MapSchema } from "@colyseus/schema";
+import Player from "../_actions/player";
 
 export default class Game extends Phaser.Scene {
   network!: Network;
@@ -56,6 +60,14 @@ export default class Game extends Phaser.Scene {
 
     this.input.keyboard?.disableGlobalCapture();
     //여기서 chatting할때 쓰는 enter랑 esc를 또 정의해준다
+
+    this.input.keyboard?.on("keydown-ENTER", () => {
+      store.dispatch(setShowChat(true));
+      store.dispatch(setFocused(true));
+    });
+    this.input.keyboard?.on("keydown-ESC", () => {
+      store.dispatch(setShowChat(false));
+    });
   }
 
   disableKeys() {
@@ -84,10 +96,39 @@ export default class Game extends Phaser.Scene {
     //1. make tilemap을 사용해서 기본 맵을 깔아주고 2. 이 맵에서 사용될 실제 타일 이미지들을 불러오기 3. 레이어를 만들어서 씌워주기
     this.map = this.make.tilemap({ key: "tilemap" });
     //(tilemap으로 쓸 이미지 파일 이름, 우리가 정해주는 이 타일 부분의 이름 key)
-    const tileset = this.map.addTilesetImage("FloorAndGround", "Tiles");
-    if (tileset) {
-      const ground = this.map.createLayer("Ground", tileset);
+    const FloorAndGround = this.map.addTilesetImage(
+      "FloorAndGround",
+      "tiles_wall"
+    );
+    if (FloorAndGround) {
+      const ground = this.map.createLayer("Ground", FloorAndGround);
       ground?.setCollisionByProperty({ collides: true });
+
+      Phaser.GameObjects.GameObjectFactory.register(
+        "myPlayer",
+        function (
+          this: Phaser.GameObjects.GameObjectFactory,
+          x: number,
+          y: number,
+          texture: string,
+          id: string,
+          frame?: string | number
+        ) {
+          // Create and return an instance of MyPlayer
+          const sprite = new MyPlayer(this.scene, x, y, texture, id, frame);
+          this.displayList.add(sprite);
+          this.updateList.add(sprite);
+          return sprite;
+        }
+      );
+
+      this.myPlayer = this.add.myPlayer(
+        705,
+        500,
+        "adam",
+        this.network.mysessionId
+      );
+      this.playerSelector = new PlayerMovement(this, 0, 0, 16, 16);
 
       if (ground) {
         this.physics.add.collider(
@@ -96,46 +137,9 @@ export default class Game extends Phaser.Scene {
         );
       }
       //안 움직이는 built in object group을 다 추가 (벽, 오피스 아이템들, 등)
-      this.addStaticGroupElements(
-        "Wall",
-        "tiles_wall",
-        "FloorAndGround",
-        false
-      );
-      this.addStaticGroupElements(
-        "Objects",
-        "office",
-        "Modern_Office_Black_Shadow",
-        false
-      );
-      this.addStaticGroupElements(
-        "ObjectsOnCollide",
-        "office",
-        "Modern_Office_Black_Shadow",
-        true
-      );
-      this.addStaticGroupElements(
-        "GenericObjects",
-        "generic",
-        "Generic",
-        false
-      );
-      this.addStaticGroupElements(
-        "GenericObjectsOnCollide",
-        "generic",
-        "Generic",
-        true
-      );
-      this.addStaticGroupElements("Basement", "basement", "Basement", true);
+    } else {
+      throw new Error("no tileset found");
     }
-
-    this.myPlayer = this.add.myPlayer(
-      700,
-      500,
-      "adam",
-      this.network.mysessionId
-    );
-    this.playerSelector = new PlayerMovement(this, 0, 0, 16, 16);
 
     this.cameras.main.zoom = 1.5;
     this.cameras.main.startFollow(this.myPlayer, true);
@@ -144,15 +148,17 @@ export default class Game extends Phaser.Scene {
     const chairs = this.physics.add.staticGroup({ classType: Chair });
     //Tiled에서 의자들은 Chair이라는 레이어로 따로 관리해줌
     const chairLayer = this.map.getObjectLayer("Chair");
-    chairLayer?.objects.forEach((chair) => {
+    chairLayer?.objects.forEach((chairObj) => {
       const item = this.addObjectElements(
         chairs,
-        chair,
+        chairObj,
         "chairs",
         "chair"
       ) as Chair;
       //Tiled에서 custom properties의 첫 value로 direction을 적어놨다 (left, right, up, down)
-      item.itemDirection = chair.properties[0].value;
+      if (chairObj.properties) {
+        item.itemDirection = chairObj.properties[0].value;
+      }
     });
 
     const computers = this.physics.add.staticGroup({ classType: Computer });
@@ -185,6 +191,28 @@ export default class Game extends Phaser.Scene {
       this.whiteboardMap.set(id, item);
     });
 
+    this.addStaticGroupElements("Wall", "tiles_wall", "FloorAndGround", false);
+    this.addStaticGroupElements(
+      "Objects",
+      "office",
+      "Modern_Office_Black_Shadow",
+      false
+    );
+    this.addStaticGroupElements(
+      "ObjectsOnCollide",
+      "office",
+      "Modern_Office_Black_Shadow",
+      true
+    );
+    this.addStaticGroupElements("GenericObjects", "generic", "Generic", false);
+    this.addStaticGroupElements(
+      "GenericObjectsOnCollide",
+      "generic",
+      "Generic",
+      true
+    );
+    this.addStaticGroupElements("Basement", "basement", "Basement", true);
+
     //const coffeeMachines = this.physics.add.staticGroup({ classType:})
     //this.physics.add.collider([this.myPlayer, this.myPlayer.playerContainer], vendingMachines)
 
@@ -207,7 +235,10 @@ export default class Game extends Phaser.Scene {
       this
     );
 
+    //scrum 회의할때 화상통화
+
     this.network.onPlayerJoined(this.handlePlayerJoined, this);
+    //this.network.onGetExistingPlayers(this.handleExistingPlayers, this);
     this.network.onPlayerLeft(this.handlePlayerLeft, this);
     this.network.onMyPlayerReady(this.handleMyPlayerReady, this);
     this.network.onMyPlayerVideoConnected(this.handleMyPlayerConnected, this);
@@ -218,7 +249,12 @@ export default class Game extends Phaser.Scene {
   }
 
   private handlePlayersOverlap(myPlayer: any, otherPlayer: any) {
+    console.log("overlap");
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
+  }
+
+  private handlePlayersScrum(myPlayer: any, scrumPlayers: any) {
+    scrumPlayers.makeCall(myPlayer, this.network?.webRTC);
   }
 
   private addObjectElements(
@@ -238,6 +274,8 @@ export default class Game extends Phaser.Scene {
         .get(x_position, y_position, key, object.gid! - firstGid)
         .setDepth(y_position);
       return itemObj;
+    } else {
+      throw new Error("tileset is not found for " + tilesetName);
     }
   }
 
@@ -288,21 +326,39 @@ export default class Game extends Phaser.Scene {
       }
     }
 
+    console.log("item:", selectionItem);
     playerSelector.selectedItem = selectionItem;
     selectionItem.onOverlapDialog();
   }
 
   private handlePlayerJoined(newPlayer: IPlayer, id: string) {
+    const texture = newPlayer.anim.split("_")[0];
+
     const otherPlayer = this.add.otherPlayer(
       newPlayer.x,
       newPlayer.y,
-      "adam",
+      texture,
       id,
       newPlayer.name
     );
     this.otherPlayers.add(otherPlayer);
     this.otherPlayerMap.set(id, otherPlayer);
+    console.log("other players: ", this.otherPlayers);
   }
+
+  //   private handleExistingPlayers(players: MapSchema<Player, string>) {
+  //     players.forEach((existingPlayer, id) => {
+  //       const player = this.add.otherPlayer(
+  //         existingPlayer.x,
+  //         existingPlayer.y,
+  //         existingPlayer.anims.currentAnim?.key,
+  //         id,
+  //         existingPlayer.name
+  //       );
+  //       this.otherPlayers.add(player);
+  //       this.otherPlayerMap.set(id, player);
+  //     });
+  //   }
 
   //현재 플레이어가 연결된 다른 플레이어 리스트에서 제거
   private handlePlayerLeft(id: string) {
@@ -322,6 +378,7 @@ export default class Game extends Phaser.Scene {
     this.myPlayer.videoConnected = true;
   }
 
+  //player가 변경될때 target position을 업데이트해주는것
   private handlePlayerUpdated(
     field: string,
     value: number | string | boolean,
@@ -329,6 +386,7 @@ export default class Game extends Phaser.Scene {
   ) {
     const otherPlayer = this.otherPlayerMap.get(id);
     otherPlayer?.updatePlayer(field, value);
+    console.log(otherPlayer?.name + "is being updated");
   }
 
   private handleItemUserAdded(
@@ -339,7 +397,8 @@ export default class Game extends Phaser.Scene {
     if (itemType === Items.COMPUTER) {
       this.computerMap.get(itemId)?.addCurrentUser(playerId);
     } else if (itemType === Items.WHITEBOARD) {
-      this.whiteboardMap.get(itemId)?.addCurrentUser(playerId);
+      const whiteboard = this.whiteboardMap.get(itemId);
+      whiteboard?.addCurrentUser(playerId);
     }
   }
 
@@ -351,7 +410,9 @@ export default class Game extends Phaser.Scene {
     if (itemType === Items.COMPUTER) {
       this.computerMap.get(itemId)?.removeCurrentUser(playerId);
     } else if (itemType === Items.WHITEBOARD) {
-      this.whiteboardMap.get(itemId)?.removeCurrentUser(playerId);
+      const whiteboard = this.whiteboardMap.get(itemId);
+      console.log("whiteboard: ", whiteboard);
+      whiteboard?.removeCurrentUser(playerId);
     }
   }
 

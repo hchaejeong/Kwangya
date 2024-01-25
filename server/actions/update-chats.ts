@@ -8,7 +8,7 @@ type Payload = {
   content: string;
 };
 
-export default class UpdateChats extends Command<Room<IN1Building>, Payload> {
+export default class UpdateChats extends Command<IN1Building, Payload> {
   //add new chat to the room's chat list
   execute(data: Payload) {
     const { client, content } = data;
