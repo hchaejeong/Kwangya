@@ -228,7 +228,7 @@ export default class Game extends Phaser.Scene {
     );
 
     this.physics.add.overlap(
-      this.playerSelector,
+      this.myPlayer,
       this.otherPlayers,
       this.handlePlayersOverlap,
       undefined,
@@ -251,10 +251,6 @@ export default class Game extends Phaser.Scene {
   private handlePlayersOverlap(myPlayer: any, otherPlayer: any) {
     console.log("overlap");
     otherPlayer.makeCall(myPlayer, this.network?.webRTC);
-  }
-
-  private handlePlayersScrum(myPlayer: any, scrumPlayers: any) {
-    scrumPlayers.makeCall(myPlayer, this.network?.webRTC);
   }
 
   private addObjectElements(

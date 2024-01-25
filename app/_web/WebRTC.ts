@@ -99,6 +99,7 @@ export default class WebRTC {
 
   connectToNewUser(userId: string) {
     if (this.myStream) {
+      console.log("connect to new user");
       const sanitizedId = this.replaceInvalidId(userId);
       if (!this.peers.has(sanitizedId)) {
         console.log("calling", sanitizedId);
@@ -120,13 +121,17 @@ export default class WebRTC {
 
   addVideoStream(video: HTMLVideoElement, stream: MediaStream) {
     //mediastream이 video에 연결되고, video가 해당 stream을 재생할 수 있음
+    console.log("add video");
     video.srcObject = stream;
     video.playsInline = true; //mobile에서 video가 전체 화면이 아닌 inline으로 재생
     //video의 metadata가 loading이 완료되면 video 재생
     video.addEventListener("loadedmetadata", () => {
       video.play();
     });
-    if (this.videoGrid) this.videoGrid.append(video);
+    if (this.videoGrid) {
+      this.videoGrid.append(video);
+      console.log("add!!");
+    }
     // if (this.videoRef) this.videoRef.current?.append(video);
   }
 

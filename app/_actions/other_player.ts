@@ -42,6 +42,16 @@ export default class OtherPlayer extends Player {
   //플레이어들이 서로 가까워지면 웹캠을 띄워서 화상연결 가능하도록 구현
   makeCall(myPlayer: MyPlayer, webRTC: WebRTC) {
     this.myPlayer = myPlayer;
+    console.log("ready to connect");
+    console.log(
+      "state:",
+      !this.connected,
+      this.bufferTime >= 750,
+      myPlayer.readyToConnect,
+      this.readyToConnect,
+      myPlayer.videoConnected,
+      myPlayer.playerId > this.playerId
+    );
     //플레이어들의 캠이 ready한 상태이고 버퍼타임이 어느정도 있는 다음에 웹캠 연결이 가능하다
     //한명만 연결 시도를 하도록 하기 위해 id가 더 높은 사람이 webRTC 커넥션을 요청하는 방식을 사용
     if (
@@ -52,6 +62,7 @@ export default class OtherPlayer extends Player {
       myPlayer.videoConnected &&
       myPlayer.playerId > this.playerId
     ) {
+      console.log("connect");
       webRTC.connectToNewUser(this.playerId);
       //연결되면 연결된 status 업데이트해주고 버퍼타임 다시 초기화
       this.connected = true;
