@@ -20,10 +20,10 @@ N1빌딩에서 4.5주간 밤낮 없이 매일 가열차게 열심히 코딩한 �
 
 ***Rooms***
 
-<img width="231" alt="스크린샷 2024-01-25 14 31 23" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/56075d15-92b4-4c68-b410-40a09954e5b0">
-<img width="231" alt="스크린샷 2024-01-25 15 14 20" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/1abbdeb3-f3c1-4552-bb88-916dc840317d">
-<img width="231" alt="스크린샷 2024-01-25 14 20 30" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/bb4fec8c-a6f3-45fd-8476-2ba6f51bb967">
-<img width="231" alt="스크린샷 2024-01-25 14 19 21" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/eab18a88-b1f7-4739-ae5c-a0325c09571f">
+<img width="215" alt="스크린샷 2024-01-25 14 31 23" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/56075d15-92b4-4c68-b410-40a09954e5b0">
+<img width="215" alt="스크린샷 2024-01-25 15 14 20" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/1abbdeb3-f3c1-4552-bb88-916dc840317d">
+<img width="215" alt="스크린샷 2024-01-25 14 20 30" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/bb4fec8c-a6f3-45fd-8476-2ba6f51bb967">
+<img width="215" alt="스크린샷 2024-01-25 14 19 21" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/eab18a88-b1f7-4739-ae5c-a0325c09571f">
 
 실습실, 스크럼실, 휴게실, 화장실으로 실제 저희 3분반의 생활공간을 표현했습니다.
 
