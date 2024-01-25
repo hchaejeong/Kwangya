@@ -138,7 +138,7 @@ export default function MainEnterRoomPage() {
         <>
           <Chat />
           {!videoConnected && <VideoConnectModal />}
-          <UserVideo />
+          {/* <UserVideo /> */}
         </>
       );
     }

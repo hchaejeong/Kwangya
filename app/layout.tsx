@@ -23,7 +23,27 @@ const Container = styled.div`
   }
 `;
 
+const VideoGrid = styled.div`
+  position: absolute;
+  top: 35px;
+  right: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 160px);
+  grid-gap: 5px;
+  grid-auto-rows: 160px;
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
+`;
+
 const Video = styled.div`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  border: 1px groove rgb(229, 251, 255);
+`;
+
+const VideoElement = styled.div`
   .video-grid {
     position: absolute;
     top: 35px;
@@ -64,10 +84,10 @@ export default function RootLayout({
           forcedTheme="dark"
           storageKey="n1-theme"
         >
-          <Container id="phaser-container">
-            {children}
-            <Video className="video-grid" />
-          </Container>
+          <Container id="phaser-container">{children}</Container>
+          <VideoGrid>
+            <VideoElement className="video-grid" />
+          </VideoGrid>
         </ThemeProvider>
       </body>
     </html>
