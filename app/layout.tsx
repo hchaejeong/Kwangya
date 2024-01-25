@@ -31,16 +31,6 @@ const VideoGrid = styled.div`
   grid-template-columns: repeat(auto-fill, 160px);
   grid-gap: 5px;
   grid-auto-rows: 160px;
-  max-height: calc(100% - 100px);
-  overflow-y: auto;
-`;
-
-const Video = styled.div`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 5px;
-  border: 1px groove rgb(229, 251, 255);
 `;
 
 const VideoElement = styled.div`
@@ -52,8 +42,6 @@ const VideoElement = styled.div`
     grid-template-columns: repeat(auto-fill, 160px);
     grid-gap: 5px;
     grid-auto-rows: 160px;
-    max-height: calc(100% - 100px);
-    overflow-y: auto;
   }
 
   .video-grid video {
@@ -62,6 +50,31 @@ const VideoElement = styled.div`
     object-fit: cover;
     border-radius: 5px;
     border: 1px groove rgb(229, 251, 255);
+  }
+`;
+
+const ButtonContainer = styled.div`
+  width: 160px;
+  display: flex;
+  justify-content: space-evenly;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+`;
+
+const Button = styled.div`
+  background-color: #ffffff;
+  color: #000000;
+  margin-horizontal: 10px;
+  border-width: 1px;
+  border-color: #000000;
+  .button-grid {
+    width: 160px;
+    display: flex;
+    justify-content: space-evenly;
+    position: absolute;
+    top: 5px;
+    right: 10px;
   }
 `;
 
@@ -88,6 +101,9 @@ export default function RootLayout({
           <VideoGrid>
             <VideoElement className="video-grid" />
           </VideoGrid>
+          <ButtonContainer>
+            <Button className="button-grid" />
+          </ButtonContainer>
         </ThemeProvider>
       </body>
     </html>
