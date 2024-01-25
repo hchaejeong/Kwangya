@@ -45,15 +45,25 @@ N1빌딩에서 4.5주간 밤낮 없이 매일 가열차게 열심히 코딩한 �
 
 <img width="500" alt="스크린샷 2024-01-25 14 55 10" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/d91d7595-b78b-43f8-9c43-12bf99d40501">
 
+![ezgif com-video-to-gif-converter (1)](https://github.com/hooniee0811/Kwangya/assets/113583087/9265e98a-97e9-4854-b5b1-7477775c4327)
+
+![ezgif com-video-to-gif-converter](https://github.com/hooniee0811/Kwangya/assets/113583087/ee7af3cf-41c6-437b-b896-23a3737064d9)
+
 
 여러 유저가 같은 컴퓨터를 이용중이면 화면공유를 할 수 있고 이 화면이 해당 컴퓨터에 접속한 모든 유저에게 보이게 됩니다. 저희 분반에 있는 총 20명의 자리에 각각 컴퓨터를 추가해서 모든 자리에서 컴퓨터 화면공유 기능이 사용 가능합니다.
 
 <img width="300" alt="스크린샷 2024-01-25 14 56 26" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/0ee9366e-8b91-4f26-a830-8631bb75e942"> <img width="500" alt="스크린샷 2024-01-25 14 57 00" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/33cd0f61-deaa-43b2-b2d1-b199616f691d">
 
+![ezgif com-video-to-gif-converter (3)](https://github.com/hooniee0811/Kwangya/assets/113583087/f2bfc749-1d55-41be-8261-e434b70b4a3c)
+
 
 실습실과 스크럼실에 있는 화이트보드에 가까이 가서 R 키를 누르면 그림판이 띄워지고 여러 접속자들이 같은 화이트보드을 이용할때 실시간으로 서로가 쓰는거를 그림판에 적용이 되도록 구현했습니다. 
 
 <img width="300" alt="스크린샷 2024-01-25 15 01 20" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/fcdc3957-00c2-4ef2-9a59-481d05ba28b8"> <img width="500" alt="스크린샷 2024-01-25 15 02 24" src="https://github.com/hooniee0811/Madcamp-Fourth-Week/assets/113583087/991f25b0-4e93-42bd-8854-16d13e028430">
+
+![ezgif com-video-to-gif-converter (2)](https://github.com/hooniee0811/Kwangya/assets/113583087/5174f079-fb8b-44c0-bc9b-bda36b53ed06)
+
+
 
 
 ***Keyboard Controls***
