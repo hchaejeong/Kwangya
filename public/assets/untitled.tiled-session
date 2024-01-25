@@ -27,11 +27,11 @@
                 4,
                 8
             ],
-            "scale": 0.6756,
-            "selectedLayer": 2,
+            "scale": 2.5576,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 401.8650088809947,
-                "y": 408.5257548845471
+                "x": 1289.6856427901157,
+                "y": 851.3841101032218
             }
         },
         "map/map.json#Basement": {
@@ -44,7 +44,7 @@
         },
         "map/map.json#Generic": {
             "dynamicWrapping": false,
-            "scaleInDock": 0.7551
+            "scaleInDock": 1.2017
         },
         "map/map.json#Modern_Office_Black_Shadow": {
             "dynamicWrapping": false,
@@ -71,8 +71,8 @@
             "scale": 0.4611,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 612.6653654304922,
-                "y": 589.8937323790933
+                "x": 484.71047495120354,
+                "y": 562.7846454131425
             }
         },
         "map/map.tmx#Basement": {
